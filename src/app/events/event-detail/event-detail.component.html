@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Evento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card *ngIf="event$ | async as event">
+    <img [src]="event.imageUrl">
+    <ion-card-content>
+      <ion-card-title>
+        {{ event.title }}
+      </ion-card-title>
+      <p>{{ event.description }}</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
