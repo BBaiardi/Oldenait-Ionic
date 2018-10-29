@@ -1,19 +1,23 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-
-import { AngularFireModule } from '@angular/fire';
+// Environment import for firebaseConfig (credentials)
 import { environment } from '../environments/environment';
+
+// AngularFire2 imports
+import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+
 import { EventsModule } from './events/events.module';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -22,15 +26,17 @@ import { EventsModule } from './events/events.module';
   entryComponents: [],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
-    EventsModule
+    AngularFireAuthModule,
+    EventsModule,
+    AuthModule
   ],
   providers: [
-    StatusBar,
-    SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

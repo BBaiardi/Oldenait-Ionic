@@ -1,0 +1,6 @@
+{
+  "appId": "edu.ar.davinci.Oldenait",
+  "appName": "Oldenait",
+  "bundledWebRuntime": false,
+  "webDir": "www"
+}
