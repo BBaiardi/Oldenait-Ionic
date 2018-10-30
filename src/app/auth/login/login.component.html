@@ -17,6 +17,6 @@
       <ion-label>Contraseña</ion-label>
       <ion-input type="password" formControlName="password"></ion-input>
     </ion-item>
-    <ion-button (click)="login()" expand="block" [disabled]="!loginForm.valid">Ingresar</ion-button>
+    <ion-button type="submit" [disabled]="!loginForm.valid">Ingresar</ion-button>
   </form>
 </ion-content>

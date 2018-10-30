@@ -22,7 +22,7 @@ import { LoadingController } from '@ionic/angular';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
+  public loginForm: FormGroup;
 
   constructor(public auth: AuthService, private router: Router, private fb: FormBuilder, public loadingCtrl: LoadingController) {
     this.createForm();
@@ -46,10 +46,21 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
-    await this.auth.emailLogin(this.loginForm.value['email'], this.loginForm.value['password']).then(() => {
-      this.loadingCtrl.create({ message: 'Autenticando', duration: 5000 });
+    const email = this.loginForm.value['email'];
+    const password = this.loginForm.value['password'];
+    await this.auth.emailLogin(email, password).then(() => {
+      this.showLoading().then(() => {
+        this.router.navigateByUrl('home');
+      });
     });
-    return this.router.navigate(['/']);
+  }
+
+  async showLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Autenticando',
+      duration: 2000
+    });
+    return await loading.present();
   }
 
 }
