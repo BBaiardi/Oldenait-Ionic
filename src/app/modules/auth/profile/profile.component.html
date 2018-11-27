@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="auth.user | async as user">
+  <ion-item>
+    Hello: {{ user.uid }}
+  </ion-item>
+  <input type="file" (change)="uploadFile($event)">
+  <ion-button (click)="logout()">Cerrar Sesion</ion-button>
+</ion-content>

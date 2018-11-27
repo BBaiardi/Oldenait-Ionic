@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form class="form" [formGroup]="loginForm" (ngSubmit)="login()">
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+    <ion-button type="submit" [disabled]="!loginForm.valid">Ingresar</ion-button>
+  </form>
+  <ion-button color="primary" (click)="fbLogin()">Login con Facebook</ion-button>
+  <ion-button color="secondary" fill="clear" [routerLink]="['/registro']">
+    Crear usuario
+  </ion-button>
+</ion-content>

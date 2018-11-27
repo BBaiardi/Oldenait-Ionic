@@ -38,7 +38,8 @@
               },
               {
                 "input": "src/global.scss"
-              }
+              },
+              "node_modules/snazzy-info-window/dist/snazzy-info-window.css"
             ],
             "scripts": []
           },

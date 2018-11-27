@@ -11,7 +11,8 @@ export const environment = {
     projectId: 'heroic-icon-151001',
     storageBucket: 'heroic-icon-151001.appspot.com',
     messagingSenderId: '289878522015'
-  }
+  },
+  googleMapsKey: 'AIzaSyDoTE2IidqGS3qkvZXcgeHkM0pBafY2WkY'
 };
 
 /*

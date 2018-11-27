@@ -1,20 +1,23 @@
 <ion-app>
   <ion-menu>
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="primary">
         <ion-title>Menu</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-list>
-        <ion-menu-toggle *ngIf="auth.user | async as user; else showLogin">
+      <ion-list *ngIf="auth.user | async as user; else showLogin">
+        <ion-menu-toggle>
           <ion-item [routerLink]="['/home']"> 
             <ion-label>Home</ion-label>
           </ion-item>
           <ion-item [routerLink]="['/eventos']">
             <ion-label>Eventos</ion-label>
           </ion-item>
-          <ion-item>
+          <ion-item [routerLink]="['/mapa']">
+            <ion-label>Geolocalización</ion-label>
+          </ion-item>
+          <ion-item [routerLink]="['/perfil']">
             <ion-label>Perfil</ion-label>
           </ion-item>
         </ion-menu-toggle>
@@ -24,8 +27,13 @@
   <ion-router-outlet main></ion-router-outlet>
 
   <ng-template #showLogin>
-    <ion-item [routerLink]="['/login']">
-      <ion-label>Ingresar</ion-label>
-    </ion-item>
+      <ion-list-header>
+        Acceda para navegar
+      </ion-list-header>
+      <ion-menu-toggle>
+        <ion-item [routerLink]="['/login']">
+          <ion-label>Ingresar</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
   </ng-template>
 </ion-app>
