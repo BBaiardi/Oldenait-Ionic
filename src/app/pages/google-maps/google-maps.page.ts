@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { GoogleMap, GoogleMaps, Environment } from '@ionic-native/google-maps/ngx';
 import { Platform } from '@ionic/angular';
+import { ClubService } from '../../modules/clubs/club.service';
+import { Observable } from 'rxjs';
+import { Club } from '../../modules/clubs/club';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'app-google-maps',
@@ -9,21 +12,25 @@ import { Platform } from '@ionic/angular';
 })
 export class GoogleMapsPage implements OnInit {
 
-  map: GoogleMap;
+  clubs$: Observable<Club[]>;
+  lat: number;
+  lng: number;
 
-  constructor(private platform: Platform) { }
+  constructor(private platform: Platform, private clubService: ClubService, private geolocation: Geolocation) { }
 
   async ngOnInit() {
     await this.platform.ready();
-    await this.loadMap();
+    await this.getUserLocation();
+    this.clubs$ = this.clubService.getData();
   }
 
-  loadMap() {
-    Environment.setEnv({
-      'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyBtYacqR_wiRL8YsLoHrhaJHEDkdUsQtvg',
-      'API_KEY_FOR_BROWSER_DEBUG': 'AIzaSyBtYacqR_wiRL8YsLoHrhaJHEDkdUsQtvg'
+  async getUserLocation() {
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.lat = resp.coords.latitude;
+      this.lng = resp.coords.longitude;
+    }).catch((error) => {
+      console.log('Error geting location', error);
     });
-    this.map = GoogleMaps.create('map_canvas');
   }
 
 }

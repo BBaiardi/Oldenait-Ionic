@@ -14,12 +14,9 @@ import {
   Router
 } from '@angular/router';
 import {
-  LoadingController,
-  NavController
-} from '@ionic/angular';
+  LoadingController} from '@ionic/angular';
 import {
-  Facebook, FacebookLoginResponse
-} from '@ionic-native/facebook/ngx';
+  Facebook} from '@ionic-native/facebook/ngx';
 
 @Component({
   selector: 'app-login',

@@ -3,9 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+// Ionic-Native Plugins
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
+import { Facebook } from '@ionic-native/facebook/ngx';
+import { GoogleMaps } from '@ionic-native/google-maps/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
@@ -24,14 +28,12 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { EventsModule } from './modules/events/events.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { GooglemapsComponent } from './googlemaps/googlemaps.component';
+import { GoogleMapsPageModule } from './pages/google-maps/google-maps.module';
 
 // Angular Google Maps imports
 import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 
-// Facebook SDK
-import { Facebook } from '@ionic-native/facebook/ngx';
-import { GoogleMaps } from '@ionic-native/google-maps/ngx';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import { GoogleMaps } from '@ionic-native/google-maps/ngx';
     AngularFireStorageModule,
     EventsModule,
     AuthModule,
+    GoogleMapsPageModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsKey
     }),
@@ -59,10 +62,11 @@ import { GoogleMaps } from '@ionic-native/google-maps/ngx';
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    Facebook,
-    GoogleMaps,
     SplashScreen,
     StatusBar,
+    Facebook,
+    GoogleMaps,
+    Geolocation,
     Camera
   ],
   bootstrap: [AppComponent]
