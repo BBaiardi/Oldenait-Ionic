@@ -86,6 +86,12 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  async gpLogin() {
+    await this.auth.googlePlusLogin().then(() => {
+      this.router.navigateByUrl('home');
+    });
+  }
+
   /*fbLogin() {
     this.facebook.login(['public_profile', 'user_photos', 'email', 'user_birthday'])
     .then((res: FacebookLoginResponse) => {

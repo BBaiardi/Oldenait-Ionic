@@ -24,6 +24,7 @@ import {
 import {
   Platform
 } from '@ionic/angular';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,7 @@ export class AuthService {
      public afs: AngularFirestore,
      private router: Router,
      public facebook: Facebook,
+     public gp: GooglePlus,
      private platform: Platform) {
     this.user = this.afAuth.authState;
   }
@@ -70,6 +72,25 @@ export class AuthService {
       });
     } else {
       return this.afAuth.auth.signInWithPopup(new auth.FacebookAuthProvider)
+      .catch(err => {
+        console.log(err);
+      });
+    }
+  }
+
+  async googlePlusLogin() {
+    if (this.platform.is('cordova')) {
+      return await this.gp.login({
+        'webClientId': '289878522015-rggcbbajb9hj1vrbec3iu90qtpdfm9ul.apps.googleusercontent.com',
+        'offline': true
+      }).then(res => {
+        const googleCredential = auth.GoogleAuthProvider.credential(res.idToken);
+        this.afAuth.auth.signInAndRetrieveDataWithCredential(googleCredential);
+      }).catch(err => {
+        console.log(err);
+      });
+    } else {
+      return this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider)
       .catch(err => {
         console.log(err);
       });

@@ -8,19 +8,30 @@
 </ion-header>
 
 <ion-content padding>
-  <form class="form" [formGroup]="loginForm" (ngSubmit)="login()">
-    <ion-item>
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="email" formControlName="email"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input type="password" formControlName="password"></ion-input>
-    </ion-item>
-    <ion-button type="submit" [disabled]="!loginForm.valid">Ingresar</ion-button>
-  </form>
-  <ion-button color="primary" (click)="fbLogin()">Login con Facebook</ion-button>
-  <ion-button color="secondary" fill="clear" [routerLink]="['/registro']">
-    Crear usuario
-  </ion-button>
+  <ion-grid>
+    <ion-row>
+      <form class="form" [formGroup]="loginForm" (ngSubmit)="login()">
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="email" formControlName="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
+        <ion-button type="submit" [disabled]="!loginForm.valid">Ingresar</ion-button>
+      </form>
+    </ion-row>
+    <ion-row>
+      <ion-button color="primary" (click)="fbLogin()">Login con Facebook</ion-button>
+    </ion-row>
+    <ion-row>
+      <ion-button color="danger" (click)="gpLogin()">Login con Google</ion-button>
+    </ion-row>
+    <ion-row>
+      <ion-button color="secondary" fill="clear" [routerLink]="['/registro']">
+        Crear usuario
+      </ion-button>
+    </ion-row>
+  </ion-grid>
 </ion-content>

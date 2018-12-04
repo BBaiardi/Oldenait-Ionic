@@ -8,6 +8,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { GoogleMaps } from '@ionic-native/google-maps/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
@@ -65,6 +66,7 @@ import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
     SplashScreen,
     StatusBar,
     Facebook,
+    GooglePlus,
     GoogleMaps,
     Geolocation,
     Camera
