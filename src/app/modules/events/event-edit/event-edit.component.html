@@ -1,0 +1,21 @@
+<ion-content padding>
+  <form [formGroup]="eventEditForm" (ngSubmit)="editEvent()">
+    <ion-item>
+      <ion-label>Título</ion-label>
+      <ion-input type="text" formControlName="title"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Descripción</ion-label>
+      <ion-input type="text" formControlName="description"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Fecha</ion-label>
+      <ion-datetime displayFormat="DD MM YY" formControlName="date"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>Género</ion-label>
+      <ion-input type="text" formControlName="genre"></ion-input>
+    </ion-item>
+    <ion-button type="submit">Modificar</ion-button>
+  </form>
+</ion-content>

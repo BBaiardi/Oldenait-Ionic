@@ -28,7 +28,6 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 
 import { EventsModule } from './modules/events/events.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { GooglemapsComponent } from './googlemaps/googlemaps.component';
 import { GoogleMapsPageModule } from './pages/google-maps/google-maps.module';
 
 // Angular Google Maps imports
@@ -38,8 +37,7 @@ import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    GooglemapsComponent
+    AppComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [],

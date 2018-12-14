@@ -30,4 +30,5 @@ export class ClubService {
    getClub(id: string) {
      return this.afs.doc<any>(`clubs/${id}`);
    }
+
 }

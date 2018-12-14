@@ -3,5 +3,6 @@ export interface Event {
     title: string;
     description: string;
     date: Date;
+    genre: string;
     imageUrl: string;
 }
