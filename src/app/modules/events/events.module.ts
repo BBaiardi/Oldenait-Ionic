@@ -8,6 +8,8 @@ import { EventEditComponent } from './event-edit/event-edit.component';
 
 import { IonicModule } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EventAddComponent } from './event-add/event-add.component';
+import { EventManagementComponent } from './event-management/event-management.component';
 
 @NgModule({
   imports: [
@@ -16,6 +18,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     IonicModule,
     ReactiveFormsModule
   ],
-  declarations: [EventListComponent, EventDetailComponent, EventEditComponent]
+  declarations: [EventListComponent, EventDetailComponent, EventEditComponent, EventAddComponent, EventManagementComponent]
 })
 export class EventsModule { }

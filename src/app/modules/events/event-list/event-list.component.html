@@ -4,14 +4,16 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Eventos</ion-title>
-    <ion-searchbar (ionInput)="search()"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col size-sm="3" *ngFor="let event of events$ | async" [routerLink]="['/evento', event.id]">
+      <ion-searchbar (ionInput)="searchEvent($term)"></ion-searchbar>
+    </ion-row>
+    <ion-row>
+      <ion-col col-xl-3 col-l-3 col-md-4 col-sm-6 *ngFor="let event of events$ | async" [routerLink]="['/evento', event.id]">
         <ion-card>
           <img [src]="event.imageUrl">
           <ion-card-content>

@@ -3,7 +3,6 @@ import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/fire
 import { Event } from './event';
 import { Observable, BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { map, switchMap, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
-import { reject } from 'q';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Injectable({
@@ -14,6 +13,7 @@ export class EventService {
   private eventsCollection: AngularFirestoreCollection<Event>;
   events$: Observable<Event[]>;
   results: Observable<any>;
+  formData: Event;
   searchForm: FormGroup;
   searchTerm: BehaviorSubject<string>;
 
@@ -65,7 +65,7 @@ export class EventService {
   }
 
   searchEvent(searchTerm: string) {
-    return this.afs.collection('event', ref => ref.where('title', '==', searchTerm)).valueChanges(); 
+    return this.afs.collection('events', ref => ref.where('title', '==', searchTerm)).valueChanges();
   }
 
 }

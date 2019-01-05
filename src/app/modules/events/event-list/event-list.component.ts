@@ -13,6 +13,7 @@ import { debounceTime, filter, distinctUntilChanged, switchMap } from 'rxjs/oper
 export class EventListComponent implements OnInit {
 
   events$: Observable<Event[]>;
+  $term: string;
 
   constructor(private eventService: EventService) {
    }
@@ -23,6 +24,10 @@ export class EventListComponent implements OnInit {
 
   search() {
     this.eventService.search();
+  }
+
+  searchEvent(term: string) {
+    this.eventService.searchEvent(term);
   }
 
 }

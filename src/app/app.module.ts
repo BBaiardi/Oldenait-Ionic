@@ -2,6 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxErrorsModule } from '@hackages/ngxerrors';
 
 // Ionic-Native Plugins
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -45,6 +46,7 @@ import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxErrorsModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
