@@ -17,10 +17,16 @@
             <ion-label position="floating">Correo electrónico</ion-label>
             <ion-input type="email" formControlName="email"></ion-input>
         </ion-item>
+        <div *ngIf="signUpForm.controls['email'].invalid && (signUpForm.controls['email'].dirty || signUpForm.controls['email'].touched)">
+            <div *ngIf="signUpForm.controls['name'].errors.required">
+                Requerido
+            </div>
+        </div>
         <ion-item>
             <ion-label position="floating">Contraseña</ion-label>
             <ion-input type="password" formControlName="password"></ion-input>
         </ion-item>
+        <div *ngIf="password.hasError('minlength') && password.dirty">Longitud mínima 8 caracteres</div>
         <ion-button type="submit" [disabled]="!signUpForm.valid">Registrarse</ion-button>
     </form>
 </ion-content>

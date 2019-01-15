@@ -45,6 +45,18 @@ export class SignupComponent implements OnInit {
     });
   }
 
+  get email() {
+    return this.signUpForm.get('email');
+  }
+
+  get password() {
+    return this.signUpForm.get('password');
+  }
+
+  get controls() {
+    return this.signUpForm.controls;
+  }
+
   async signUp() {
     const displayName = this.signUpForm.value['displayName'];
     const email = this.signUpForm.value['email'];

@@ -14,4 +14,41 @@
       </ion-item>
     </ion-list>
   </ion-grid>
+  <ion-grid>
+    <ion-row>
+      <ion-col>Título</ion-col>
+      <ion-col>Descripción</ion-col>
+      <ion-col>Fecha</ion-col>
+      <ion-col>Género</ion-col>
+      <ion-col>Edición</ion-col>
+    </ion-row>
+    <ion-list>
+      <ion-item *ngFor="let event of events$ | async">
+        <ion-label>{{ event.title }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-grid>
+  <table>
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Fecha</th>
+        <th>Género</th>
+        <th>Editar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let event of events$ | async">
+        <td>{{ event.title }}</td>
+        <td>{{ event.description }}</td>
+        <td>{{ event.date }}</td>
+        <td>{{ event.genre }}</td>
+        <td>
+          <ion-icon name="create"></ion-icon>
+          <ion-icon name="trash"></ion-icon>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </ion-content>

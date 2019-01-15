@@ -40,6 +40,7 @@ export class EventService {
      return this.afs.doc<any>(`events/${id}`);
    }
 
+   // Crud methods for events
    addEvent(event: Event) {
      this.eventsCollection.add(event);
    }

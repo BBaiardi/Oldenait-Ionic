@@ -11,6 +11,10 @@
   <ion-item>
     Hello: {{ user.uid }}
   </ion-item>
+  <ion-item>
+    Email: {{ user.email }}
+  </ion-item>
   <input type="file" (change)="uploadFile($event)">
   <ion-button (click)="logout()">Cerrar Sesion</ion-button>
+  
 </ion-content>
