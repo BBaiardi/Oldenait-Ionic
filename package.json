@@ -34,7 +34,6 @@
     "@ionic-native/status-bar": "^5.0.0-beta.23",
     "@ionic/angular": "4.0.0-rc.2",
     "@ionic/pro": "2.0.3",
-    "algoliasearch": "^3.32.0",
     "angular-instantsearch": "^2.1.0",
     "cordova-android": "7.1.4",
     "cordova-browser": "5.0.4",
