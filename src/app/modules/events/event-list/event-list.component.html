@@ -10,14 +10,11 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-searchbar (ionInput)="searchEvent($term)"></ion-searchbar>
-    </ion-row>
-    <ion-row>
-      <ion-col col-xl-3 col-l-3 col-md-4 col-sm-6 *ngFor="let event of events$ | async" [routerLink]="['/evento', event.id]">
+      <ion-col size-lg-4 size-md-4 size-sm-12 *ngFor="let event of events$ | async" [routerLink]="['/evento', event.id]">
         <ion-card>
           <img [src]="event.imageUrl">
           <ion-card-content>
-            <ion-card-title>
+            <ion-card-title text-center>
               {{ event.title }}
             </ion-card-title>
           </ion-card-content>

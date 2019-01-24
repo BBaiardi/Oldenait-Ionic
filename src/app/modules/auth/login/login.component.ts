@@ -27,29 +27,8 @@ export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup;
 
-  validation_messages = {
-    'email': [{
-        type: 'required',
-        message: 'Email requerido.'
-      },
-      {
-        type: 'pattern',
-        message: 'Por favor ingresar un email válido.'
-      }
-    ],
-    'password': [{
-        type: 'required',
-        message: 'Contraseña requerida.'
-      },
-      {
-        type: 'minLength',
-        message: 'La contraseña debe tener al menos 5 caracteres.'
-      }
-    ]
-  };
-
   constructor(public auth: AuthService, private router: Router, private fb: FormBuilder, public loadingCtrl: LoadingController,
-    public facebook: Facebook) {
+     public facebook: Facebook) {
     this.createForm();
   }
 
@@ -58,7 +37,10 @@ export class LoginComponent implements OnInit {
   createForm() {
     this.loginForm = this.fb.group({
       email: ['', [
-        Validators.compose([Validators.required, Validators.email])
+        Validators.compose([Validators.required,
+          Validators.email,
+          Validators.minLength(5),
+          Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$')])
       ]],
       password: ['', [
         Validators.compose([Validators.required,
@@ -120,6 +102,14 @@ export class LoginComponent implements OnInit {
       duration: 2000
     });
     return await loading.present();
+  }
+
+  get email() {
+    return this.loginForm.get('email');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
   }
 
 }

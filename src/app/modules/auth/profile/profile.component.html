@@ -8,12 +8,13 @@
 </ion-header>
 
 <ion-content *ngIf="auth.user | async as user">
-  <ion-item>
-    Hello: {{ user.uid }}
-  </ion-item>
-  <ion-item>
-    Email: {{ user.email }}
-  </ion-item>
+  <h1>{{ user.displayName }}</h1>
+  <ion-avatar>
+    <img [src]="user.photoURL">
+  </ion-avatar>
+  <pre>
+    {{ user | json }}
+  </pre>
   <input type="file" (change)="uploadFile($event)">
   <ion-button (click)="logout()">Cerrar Sesion</ion-button>
   

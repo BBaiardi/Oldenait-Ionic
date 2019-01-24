@@ -36,8 +36,12 @@ export class EventService {
      );
    }
 
+   getEvents() {
+     return this.events$;
+   }
+
    getEvent(id: string) {
-     return this.afs.doc<any>(`events/${id}`);
+     return this.afs.doc<any>(`events/${id}`).valueChanges();
    }
 
    // Crud methods for events

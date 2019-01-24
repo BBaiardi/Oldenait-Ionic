@@ -6,6 +6,8 @@ import { SignupComponent } from './signup/signup.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
 import { ProfileComponent } from './profile/profile.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
 
 @NgModule({
   imports: [
@@ -17,7 +19,9 @@ import { ProfileComponent } from './profile/profile.component';
   declarations: [
     LoginComponent,
     SignupComponent,
-    ProfileComponent
+    ProfileComponent,
+    PasswordResetComponent,
+    CompleteProfileComponent
   ]
 })
 export class AuthModule { }

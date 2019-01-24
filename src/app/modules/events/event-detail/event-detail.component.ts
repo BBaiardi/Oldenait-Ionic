@@ -19,7 +19,7 @@ export class EventDetailComponent implements OnInit {
   ngOnInit() {
     this.event$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-      this.eventService.getEvent(params.get('id')).valueChanges())
+      this.eventService.getEvent(params.get('id')))
     );
   }
 

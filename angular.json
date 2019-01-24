@@ -39,7 +39,9 @@
               {
                 "input": "src/global.scss"
               },
-              "node_modules/snazzy-info-window/dist/snazzy-info-window.css"
+              "node_modules/snazzy-info-window/dist/snazzy-info-window.css",
+              "node_modules/angular-instantsearch/bundles/instantsearch.min.css",
+              "node_modules/angular-instantsearch/bundles/instantsearch-theme-algolia.min.css"
             ],
             "scripts": []
           },

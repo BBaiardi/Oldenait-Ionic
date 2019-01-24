@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-signup',
@@ -13,7 +13,8 @@ export class SignupComponent implements OnInit {
 
   public signUpForm: FormGroup;
 
-  constructor(public auth: AuthService, private router: Router, private fb: FormBuilder, public loadingCtrl: LoadingController) {
+  constructor(public auth: AuthService, private router: Router, private fb: FormBuilder, public alertCtrl: AlertController,
+    public toastCtrl: ToastController) {
     this.createForm();
    }
 
@@ -22,16 +23,12 @@ export class SignupComponent implements OnInit {
 
   public createForm() {
     this.signUpForm = this.fb.group({
-      displayName: ['', [
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(10)
-        ])
-      ]],
       email: ['', [
         Validators.compose([
           Validators.required,
-          Validators.email
+          Validators.email,
+          Validators.minLength(5),
+          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
         ])
       ]],
       password: ['', [
@@ -53,19 +50,39 @@ export class SignupComponent implements OnInit {
     return this.signUpForm.get('password');
   }
 
-  get controls() {
-    return this.signUpForm.controls;
-  }
-
   async signUp() {
-    const displayName = this.signUpForm.value['displayName'];
     const email = this.signUpForm.value['email'];
     const password = this.signUpForm.value['password'];
-    await this.auth.signUp(email, password).then(() => {
-      this.auth.updateProfile(displayName, null).then(() => {
-        this.router.navigate(['/']);
-      });
+    const alert = await this.alertCtrl.create({
+      header: 'Creación de usuario',
+      message: '¿Confirma?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Operación cancelada');
+          }
+        }, {
+          text: 'Aceptar',
+          handler: () => {
+            this.auth.signUp(email, password).then(() => {
+              this.presentToast().then(() => {
+                this.router.navigate(['/creacionperfil']);
+              });
+            });
+          }
+        }
+      ]
     });
+    await alert.present();
   }
 
+  async presentToast() {
+    const toast = await this.toastCtrl.create({
+      message: '¡El usuario fue creado correctamente!',
+      duration: 2000
+    });
+    toast.present();
+  }
 }

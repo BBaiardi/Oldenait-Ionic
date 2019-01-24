@@ -5,6 +5,8 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AuthGuard } from './auth.guard';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
 
 const authRoutes: Routes = [
     {
@@ -19,6 +21,14 @@ const authRoutes: Routes = [
         path: 'perfil',
         component: ProfileComponent,
         canActivate: [AuthGuard]
+    },
+    {
+        path: 'creacionperfil',
+        component: CompleteProfileComponent
+    },
+    {
+        path: 'recuperocontraseña',
+        component: PasswordResetComponent
     }
 ];
 

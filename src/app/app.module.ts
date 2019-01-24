@@ -35,6 +35,7 @@ import { GoogleMapsPageModule } from './pages/google-maps/google-maps.module';
 import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 
+import { NgAisModule } from 'angular-instantsearch';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsKey
     }),
-    AgmSnazzyInfoWindowModule
+    AgmSnazzyInfoWindowModule,
+    NgAisModule.forRoot()
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

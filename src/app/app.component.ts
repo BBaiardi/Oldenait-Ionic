@@ -14,8 +14,11 @@ export class AppComponent {
   }
 
   initializeApp() {
-    this.platform.ready();
-    this.splashScreen.hide();
-    this.statusBar.styleDefault();
+    if (this.platform.is('cordova')) {
+      this.platform.ready().then(() => {
+        this.statusBar.styleDefault();
+        this.splashScreen.hide();
+      });
+    }
   }
 }

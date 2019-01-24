@@ -24,7 +24,10 @@ import {
 import {
   Platform
 } from '@ionic/angular';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import {
+  GooglePlus
+} from '@ionic-native/google-plus/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -32,13 +35,15 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
 export class AuthService {
 
   user: Observable < User | null > ;
+  public cameraImage: string;
 
   constructor(public afAuth: AngularFireAuth,
-     public afs: AngularFirestore,
-     private router: Router,
-     public facebook: Facebook,
-     public gp: GooglePlus,
-     private platform: Platform) {
+    public afs: AngularFirestore,
+    private router: Router,
+    public facebook: Facebook,
+    public gp: GooglePlus,
+    private platform: Platform,
+    private camera: Camera) {
     this.user = this.afAuth.authState;
   }
 
@@ -63,18 +68,18 @@ export class AuthService {
   async fbLogin() {
     if (this.platform.is('cordova')) {
       return await this.facebook.login(['email', 'public_profile'])
-      .then(res => {
-        const credential = auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
-        this.afAuth.auth.signInAndRetrieveDataWithCredential(credential)
+        .then(res => {
+          const credential = auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
+          this.afAuth.auth.signInAndRetrieveDataWithCredential(credential)
+            .catch(err => {
+              console.log(err);
+            });
+        });
+    } else {
+      return this.afAuth.auth.signInWithPopup(new auth.FacebookAuthProvider)
         .catch(err => {
           console.log(err);
         });
-      });
-    } else {
-      return this.afAuth.auth.signInWithPopup(new auth.FacebookAuthProvider)
-      .catch(err => {
-        console.log(err);
-      });
     }
   }
 
@@ -91,9 +96,9 @@ export class AuthService {
       });
     } else {
       return this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider)
-      .catch(err => {
-        console.log(err);
-      });
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 
@@ -102,6 +107,25 @@ export class AuthService {
       displayName: name,
       photoURL: photoUrl
     });
+  }
+
+  selectImage(): Promise<any> {
+    return new Promise(resolve => {
+      const options: CameraOptions = {
+        quality: 100,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE
+      };
+      this.camera.getPicture(options).then((imageData) => {
+        this.cameraImage = 'data:image/jpeg;base64,' + imageData;
+        resolve(this.cameraImage);
+      });
+    });
+  }
+
+  async passwordReset(email: string) {
+    return this.afAuth.auth.sendPasswordResetEmail(email).catch(err => console.log(err));
   }
 
   logout() {
