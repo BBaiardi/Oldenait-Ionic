@@ -11,12 +11,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EventAddComponent } from './event-add/event-add.component';
 import { EventManagementComponent } from './event-management/event-management.component';
 
+import { NgAisModule } from 'angular-instantsearch';
+
 @NgModule({
   imports: [
     CommonModule,
     EventsRoutingModule,
     IonicModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgAisModule
   ],
   declarations: [EventListComponent, EventDetailComponent, EventEditComponent, EventAddComponent, EventManagementComponent]
 })

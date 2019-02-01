@@ -14,20 +14,6 @@
       </ion-item>
     </ion-list>
   </ion-grid>
-  <ion-grid>
-    <ion-row>
-      <ion-col>Título</ion-col>
-      <ion-col>Descripción</ion-col>
-      <ion-col>Fecha</ion-col>
-      <ion-col>Género</ion-col>
-      <ion-col>Edición</ion-col>
-    </ion-row>
-    <ion-list>
-      <ion-item *ngFor="let event of events$ | async">
-        <ion-label>{{ event.title }}</ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-grid>
   <table>
     <thead>
       <tr>
@@ -51,4 +37,9 @@
       </tr>
     </tbody>
   </table>
+  <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

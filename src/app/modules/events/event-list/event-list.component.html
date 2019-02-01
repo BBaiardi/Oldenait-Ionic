@@ -10,7 +10,26 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col size-xs="12" size-sm="6" side-md="4"  size-lg="3"  *ngFor="let event of events$ | async" [routerLink]="['/evento', event.id]">
+      <ais-instantsearch [config]="{
+      apiKey: '99c8f54c6696b05c8205db6f21abe04f',
+      appId: 'NWEOAX6K2U',
+      indexName: 'events',
+      routing: 'true'
+    }">
+        <ais-search-box placeholder="Busca un evento"></ais-search-box>
+        <ais-hits>
+          <ng-template let-hits="hits">
+            <div *ngFor="let hit of hits" [routerLink]="['/evento', hit.id]">
+              <img [src]="hit.imageUrl">
+              <h1>{{ hit.title }}</h1>
+              <p>{{ hit.description }}</p>
+            </div>
+          </ng-template>
+        </ais-hits>
+      </ais-instantsearch>
+    </ion-row>
+    <ion-row>
+      <ion-col size-xs="12" size-sm="6" side-md="4" size-lg="3" *ngFor="let event of events$ | async" [routerLink]="['/evento', event.id]">
         <ion-card>
           <img [src]="event.imageUrl">
           <ion-card-content>

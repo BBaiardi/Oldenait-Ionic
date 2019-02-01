@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
         Validators.compose([Validators.required,
           Validators.email,
           Validators.minLength(5),
-          Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$')])
+          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])
       ]],
       password: ['', [
         Validators.compose([Validators.required,
@@ -98,7 +98,6 @@ export class LoginComponent implements OnInit {
 
   async showLoading() {
     const loading = await this.loadingCtrl.create({
-      message: 'Autenticando...',
       duration: 2000
     });
     return await loading.present();
