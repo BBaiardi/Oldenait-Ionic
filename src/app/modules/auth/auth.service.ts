@@ -9,7 +9,7 @@ import {
   AngularFireAuth
 } from '@angular/fire/auth';
 import {
-  Observable
+  Observable, of
 } from 'rxjs';
 import {
   AngularFirestore
@@ -18,9 +18,7 @@ import {
   Router
 } from '@angular/router';
 import {
-  Facebook,
-  FacebookLoginResponse
-} from '@ionic-native/facebook/ngx';
+  Facebook} from '@ionic-native/facebook/ngx';
 import {
   Platform
 } from '@ionic/angular';
@@ -28,13 +26,14 @@ import {
   GooglePlus
 } from '@ionic-native/google-plus/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  user: Observable < User | null > ;
+  user$: Observable<User>;
   public cameraImage: string;
 
   constructor(public afAuth: AngularFireAuth,
@@ -44,7 +43,26 @@ export class AuthService {
     public gp: GooglePlus,
     private platform: Platform,
     private camera: Camera) {
-    this.user = this.afAuth.authState;
+      // this.user = this.afAuth.authState;
+      this.user$ = this.afAuth.authState.pipe(
+        switchMap(user => {
+          if (user) {
+            user.getIdTokenResult().then(idTokenResult => {
+              console.log(idTokenResult.claims);
+            });
+            return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+          } else {
+            return of(null);
+          }
+        })
+      );
+      /* this.afAuth.auth.onAuthStateChanged(user => {
+      if (user) {
+        user.getIdTokenResult().then(idTokenResult => {
+          console.log(idTokenResult);
+        });
+      }
+    });*/
   }
 
   async emailLogin(email: string, password: string) {
@@ -128,9 +146,22 @@ export class AuthService {
     return this.afAuth.auth.sendPasswordResetEmail(email).catch(err => console.log(err));
   }
 
-  logout() {
+  /* logout() {
     this.afAuth.auth.signOut().then(() => {
       return this.router.navigate(['/']);
+    });
+  } */
+
+  async logout() {
+    await this.afAuth.auth.signOut();
+    this.router.navigate(['/']);
+  }
+
+  get isAdmin() {
+    return this.user$.subscribe(user => {
+      user.getIdTokenResult().then(idTokenResult => {
+        return idTokenResult.claims.admin;
+      });
     });
   }
 

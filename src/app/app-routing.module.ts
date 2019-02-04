@@ -8,8 +8,7 @@ const routes: Routes = [
   { path: 'eventos', loadChildren: './modules/events/events.module#EventsModule' },
   { path: 'login', loadChildren: './modules/auth/auth.module#AuthModule' },
   { path: 'mapa', loadChildren: './pages/google-maps/google-maps.module#GoogleMapsPageModule' },
-  { path: 'admin-dashboard', loadChildren: './pages/admin-dashboard/admin-dashboard.module#AdminDashboardPageModule' },
-  { path: '**', redirectTo: 'login' }
+  { path: 'admin-dashboard', loadChildren: './pages/admin-dashboard/admin-dashboard.module#AdminDashboardPageModule' }
 ];
 
 @NgModule({

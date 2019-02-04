@@ -37,11 +37,11 @@ export class EventEditComponent implements OnInit {
           Validators.required
         ])
       ]],
-      genre: ['', [
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(15)
-        ])
+      genres: ['', [
+        Validators.required
+      ]],
+      ticket: ['', [
+        Validators.required
       ]]
     });
   }
@@ -50,19 +50,22 @@ export class EventEditComponent implements OnInit {
     const title = this.eventEditForm.value['title'];
     const description = this.eventEditForm.value['description'];
     const date = this.eventEditForm.value['date'];
-    const genre = this.eventEditForm.value['genre'];
+    const genres = this.eventEditForm.value['genres'];
+    const ticket = this.eventEditForm.value['ticket'];
     const data: Event = {
       id: event.id,
       title: event.title,
       description: event.description,
       date: event.date,
-      genre: event.genre,
-      imageUrl: event.imageUrl
+      genres: event.genres,
+      imageUrl: event.imageUrl,
+      ticket: event.ticket
     };
     data.title = title;
     data.description = description;
     data.date = date;
-    data.genre = genre;
+    data.genres = genres;
+    data.ticket = ticket;
     console.log(data);
     this.eventService.updateEvent(event);
   }

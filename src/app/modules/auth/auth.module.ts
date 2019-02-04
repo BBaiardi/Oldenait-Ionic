@@ -8,6 +8,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { ProfileComponent } from './profile/profile.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
+import { SuperAdminComponent } from './super-admin/super-admin.component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { CompleteProfileComponent } from './complete-profile/complete-profile.co
     SignupComponent,
     ProfileComponent,
     PasswordResetComponent,
-    CompleteProfileComponent
+    CompleteProfileComponent,
+    SuperAdminComponent
   ]
 })
 export class AuthModule { }

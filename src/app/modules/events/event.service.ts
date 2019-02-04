@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 import { Event } from './event';
-import { Observable, BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { map, switchMap, debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,17 +11,9 @@ export class EventService {
 
   private eventsCollection: AngularFirestoreCollection<Event>;
   events$: Observable<Event[]>;
-  results: Observable<any>;
-  formData: Event;
-  searchForm: FormGroup;
-  searchTerm: BehaviorSubject<string>;
 
-  constructor(private afs: AngularFirestore, private fb: FormBuilder) {
+  constructor(private afs: AngularFirestore) {
     this.eventsCollection = afs.collection<Event>('events');
-    this.searchForm = this.fb.group({
-      search: ['', Validators.required ]
-    });
-    this.searchTerm = new BehaviorSubject(null);
    }
 
    getData(): Observable<Event[]> {
@@ -45,33 +36,25 @@ export class EventService {
    }
 
    // Crud methods for events
-   addEvent(event: Event) {
-     this.eventsCollection.add(event);
+   async addEvent(event: Event) {
+     return this.eventsCollection.add(event)
+     .catch(err => {
+       console.log(err);
+     });
    }
 
-   updateEvent(event: Event) {
-     return this.eventsCollection.doc(event.id).update(event);
+  async updateEvent(event: Event) {
+     return this.eventsCollection.doc(event.id).update(event)
+     .catch(err => {
+       console.log(err);
+     });
    }
 
-   removeEvent(id: string) {
-     return this.afs.doc<any>(`events/${id}`).delete();
+   async removeEvent(id: string) {
+     return this.afs.doc<any>(`events/${id}`).delete()
+     .catch(err => {
+       console.log(err);
+     });
    }
-
-   search() {
-    this.results = this.searchForm.controls.search.valueChanges.pipe(
-      debounceTime(500),
-      filter(value => value.length > 3),
-      distinctUntilChanged(),
-      switchMap(searchTerm => {
-        this.afs.collection('events', ref => ref.where('title', '==', searchTerm)).valueChanges();
-        return searchTerm;
-      })
-    );
-  }
-
-  searchEvent(searchTerm: string) {
-    return this.afs.collection('events', ref => ref.where('title', '==', searchTerm)).valueChanges();
-  }
-
 }
 

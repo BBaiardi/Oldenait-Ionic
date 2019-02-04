@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EventService } from '../event.service';
 import { Event } from '../event';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-event-add',
@@ -13,7 +13,7 @@ export class EventAddComponent implements OnInit {
 
   eventAddForm: FormGroup;
 
-  constructor(public eventService: EventService, private formBuilder: FormBuilder, private alertCtrl: AlertController) { }
+  constructor(public eventService: EventService, private formBuilder: FormBuilder, private toastCtrl: ToastController) { }
 
   ngOnInit() {
     this.createForm();
@@ -38,11 +38,13 @@ export class EventAddComponent implements OnInit {
           Validators.required
         ])
       ]],
-      genre: ['', [
+      genres: ['', [
         Validators.compose([
-          Validators.required,
-          Validators.maxLength(15)
+          Validators.required
         ])
+      ]],
+      ticket: ['', [
+        Validators.required
       ]]
     });
   }
@@ -52,18 +54,20 @@ export class EventAddComponent implements OnInit {
       title : this.eventAddForm.value['title'],
       description: this.eventAddForm.value['description'],
       date: this.eventAddForm.value['date'],
-      genre: this.eventAddForm.value['genre']
+      genres: this.eventAddForm.value['genre'],
+      ticket: this.eventAddForm.value['ticket']
     };
     this.eventService.addEvent(data);
-    this.presentAlert();
+    this.presentToast();
   }
 
-  async presentAlert() {
-    const alert = await this.alertCtrl.create({
-      header: 'Evento agregado!',
-      buttons: ['Ok']
+  async presentToast() {
+    const toast = await this.toastCtrl.create({
+      message: '¡Evento agregado correctamente!',
+      duration: 2000,
+      position: 'bottom'
     });
-    return alert.present();
+    return toast.present();
   }
 
 }

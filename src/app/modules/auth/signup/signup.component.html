@@ -10,6 +10,7 @@
 <ion-content padding>
     <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
         <ion-item>
+            <ion-icon slot="start" name="mail"></ion-icon>
             <ion-label position="floating">Correo electrónico</ion-label>
             <ion-input type="email" formControlName="email"></ion-input>
         </ion-item>
@@ -20,6 +21,7 @@
             *Ingrese un correo electrónico válido
         </div>
         <ion-item>
+            <ion-icon slot="start" name="lock"></ion-icon>
             <ion-label position="floating">Contraseña</ion-label>
             <ion-input type="password" formControlName="password"></ion-input>
         </ion-item>
@@ -30,7 +32,7 @@
             *La contraseña debe contener al menos una MAYÚSCULA, una minúscula y un número
         </div>
         <div class="error-message" *ngIf="password.hasError('minlength')">
-            *La contraseña debe contener 8 caracteres como mínimo
+            *La contraseña debe contener 6 caracteres como mínimo
         </div>
         <div class="error-message" *ngIf="password.hasError('maxlength')">
             *La contraseña no debe exceder los 25 caracteres

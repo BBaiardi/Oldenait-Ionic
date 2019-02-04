@@ -5,15 +5,6 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-grid>
-    <ion-button [routerLink]="['/agregar']">Agregar</ion-button>
-    <ion-list>
-      <ion-item *ngFor="let event of events$ | async">
-        <ion-label (click)="onEdit(event)">{{ event.title }}</ion-label>
-        <ion-button (click)="rmEvent(event.id)">Eliminar</ion-button>
-      </ion-item>
-    </ion-list>
-  </ion-grid>
   <table>
     <thead>
       <tr>
@@ -29,7 +20,7 @@
         <td>{{ event.title }}</td>
         <td>{{ event.description }}</td>
         <td>{{ event.date }}</td>
-        <td>{{ event.genre }}</td>
+        <td>{{ event.genres }}</td>
         <td>
           <ion-icon name="create"></ion-icon>
           <ion-icon name="trash"></ion-icon>
@@ -38,7 +29,7 @@
     </tbody>
   </table>
   <ion-fab vertical="top" horizontal="end" slot="fixed">
-    <ion-fab-button>
+    <ion-fab-button [routerLink]="['/agregar-evento']">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

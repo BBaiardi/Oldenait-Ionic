@@ -7,6 +7,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { AuthGuard } from './auth.guard';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
+import { SuperAdminComponent } from './super-admin/super-admin.component';
 
 const authRoutes: Routes = [
     {
@@ -23,12 +24,16 @@ const authRoutes: Routes = [
         canActivate: [AuthGuard]
     },
     {
-        path: 'creacionperfil',
+        path: 'creacion-perfil',
         component: CompleteProfileComponent
     },
     {
-        path: 'recuperocontraseña',
+        path: 'recupero-contraseña',
         component: PasswordResetComponent
+    },
+    {
+        path: 'super-admin',
+        component: SuperAdminComponent
     }
 ];
 
