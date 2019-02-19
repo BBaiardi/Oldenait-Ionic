@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import { user } from 'firebase-functions/lib/providers/auth';
 
 admin.initializeApp();
 
@@ -51,3 +52,35 @@ admin.auth().getUserByEmail('baiardibruno@gmail.com').then((user) => {
         admin: true
     });
 }); */
+
+export const addUserToFirestoreOnCreate = functions.auth.user().onCreate(user => {
+    const data = {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        uid: user.uid
+    }
+    return admin.firestore().collection('users').add(data).then(() => {
+        console.log('Registro agregado correctamente!')
+    }).catch((error) => {
+        console.log(error);
+    });
+});
+
+export const processSignUp = functions.auth.user().onCreate((userRecord) => {
+    if (userRecord.email && userRecord.emailVerified) {
+        const customClaims = {
+            admin: true
+        }
+        return admin.auth().setCustomUserClaims(userRecord.uid, customClaims)
+            .then(() => {
+                const metadataRef = admin.firestore().collection(`users/${userRecord.uid}`);
+                return metadataRef.add({refreshTime: new Date().getTime()});
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+});
+
+

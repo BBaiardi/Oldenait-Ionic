@@ -10,11 +10,11 @@
 <ion-content padding>
   <ion-card *ngIf="event$ | async as event">
     <img [src]="event.imageUrl">
+    <ion-card-header>
+      <ion-card-title>{{ event.title }}</ion-card-title>
+    </ion-card-header>
     <ion-card-content>
-      <ion-card-title>
-        {{ event.title }}
-      </ion-card-title>
-      <p>{{ event.description }}</p>
+      {{ event.description }}
     </ion-card-content>
   </ion-card>
 </ion-content>

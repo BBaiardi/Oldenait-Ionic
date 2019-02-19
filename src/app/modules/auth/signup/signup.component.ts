@@ -68,7 +68,7 @@ export class SignupComponent implements OnInit {
           handler: () => {
             this.auth.signUp(email, password).then(() => {
               this.presentToast().then(() => {
-                this.router.navigate(['/creacionperfil']);
+                this.router.navigate(['/home']);
               });
             });
           }

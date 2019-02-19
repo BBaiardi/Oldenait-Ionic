@@ -16,6 +16,7 @@ export class EventService {
     this.eventsCollection = afs.collection<Event>('events');
    }
 
+   // Retrieve data from collection
    getData(): Observable<Event[]> {
      return this.events$ = this.eventsCollection.snapshotChanges().pipe(
        map((actions) => {

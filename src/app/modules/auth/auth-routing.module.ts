@@ -4,7 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ProfileComponent } from './profile/profile.component';
-import { AuthGuard } from './auth.guard';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
 import { SuperAdminComponent } from './super-admin/super-admin.component';
@@ -20,8 +19,7 @@ const authRoutes: Routes = [
     },
     {
         path: 'perfil',
-        component: ProfileComponent,
-        canActivate: [AuthGuard]
+        component: ProfileComponent
     },
     {
         path: 'creacion-perfil',

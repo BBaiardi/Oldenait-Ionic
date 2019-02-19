@@ -3,13 +3,19 @@ import { AuthService } from './modules/auth/auth.service';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { DbService } from './services/db.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
-  constructor(public auth: AuthService, private platform: Platform, private splashScreen: SplashScreen, private statusBar: StatusBar ) {
+
+  constructor(public auth: AuthService,
+    public db: DbService,
+    private platform: Platform,
+    private splashScreen: SplashScreen,
+    private statusBar: StatusBar ) {
     this.initializeApp();
   }
 
@@ -21,4 +27,9 @@ export class AppComponent {
       });
     }
   }
+
+  logout() {
+    return this.auth.logout();
+  }
+
 }

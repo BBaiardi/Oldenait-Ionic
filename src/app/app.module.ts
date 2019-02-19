@@ -2,7 +2,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxErrorsModule } from '@hackages/ngxerrors';
 
 // Ionic-Native Plugins
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -28,14 +27,17 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
 
+// Modules imports
 import { EventsModule } from './modules/events/events.module';
+import { ClubsModule } from './modules/clubs/clubs.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { GoogleMapsPageModule } from './pages/google-maps/google-maps.module';
+import { GoogleMapsPageModule } from './modules/google-maps/google-maps.module';
 
 // Angular Google Maps imports
 import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 
+// Angular InstantSearch import
 import { NgAisModule } from 'angular-instantsearch';
 
 @NgModule({
@@ -48,22 +50,22 @@ import { NgAisModule } from 'angular-instantsearch';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxErrorsModule,
     IonicModule.forRoot(),
-    AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
     AngularFireFunctionsModule,
-    EventsModule,
-    AuthModule,
-    GoogleMapsPageModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsKey
     }),
     AgmSnazzyInfoWindowModule,
-    NgAisModule.forRoot()
+    NgAisModule.forRoot(),
+    AuthModule,
+    EventsModule,
+    ClubsModule,
+    GoogleMapsPageModule,
+    AppRoutingModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Event } from '../event';
 import { EventService } from '../event.service';
-import { ActivatedRoute, Router, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
@@ -14,7 +14,7 @@ export class EventDetailComponent implements OnInit {
 
   event$: Observable<Event[]>;
 
-  constructor(private eventService: EventService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private eventService: EventService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.event$ = this.route.paramMap.pipe(
@@ -22,9 +22,4 @@ export class EventDetailComponent implements OnInit {
       this.eventService.getEvent(params.get('id')))
     );
   }
-
-  goToEvents() {
-    this.router.navigate(['/eventos']);
-  }
-
 }

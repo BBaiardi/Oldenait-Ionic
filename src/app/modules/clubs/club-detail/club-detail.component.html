@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Club</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding *ngIf="club$ | async as club">
+  <h1>{{ club.name }}</h1>
+  <h2>{{ club.website }}</h2>
+  <h3>Caretelera de eventos</h3>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-xs="12" size-sm="6" side-md="4" size-lg="3" *ngFor="let event of events$ | async" [routerLink]="['/evento', event.id, '']">
+          <ion-card>
+              <img [src]="event.imageUrl">
+              <ion-card-content>
+                <ion-card-title text-center>
+                  {{ event.title }}
+                </ion-card-title>
+              </ion-card-content>
+            </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

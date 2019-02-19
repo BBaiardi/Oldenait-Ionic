@@ -3,12 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './modules/auth/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'home', loadChildren: './home/home.module#HomePageModule' },
-  { path: 'eventos', loadChildren: './modules/events/events.module#EventsModule' },
-  { path: 'login', loadChildren: './modules/auth/auth.module#AuthModule' },
-  { path: 'mapa', loadChildren: './pages/google-maps/google-maps.module#GoogleMapsPageModule' },
-  { path: 'admin-dashboard', loadChildren: './pages/admin-dashboard/admin-dashboard.module#AdminDashboardPageModule' }
+  { path: '', loadChildren: './modules/auth/auth.module#AuthModule' },
+  { path: 'home', canActivate: [AuthGuard], loadChildren: './home/home.module#HomePageModule' },
+  { path: 'eventos', canActivate: [AuthGuard], loadChildren: './modules/events/events.module#EventsModule' },
+  { path: 'clubs', canActivate: [AuthGuard], loadChildren: './modules/clubs/clubs.module#ClubsModule' },
+  { path: 'mapa', canActivate: [AuthGuard], loadChildren: './modules/google-maps/google-maps.module#GoogleMapsPageModule' }
 ];
 
 @NgModule({

@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Clubs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-xs="12" size-sm="6" side-md="4" size-lg="3" *ngFor="let club of clubs$ | async" [routerLink]="['/club', club.id]">
+        <ion-card>
+          <ion-card-content>
+            <ion-card-title text-center>
+              {{ club.name }}
+            </ion-card-title>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

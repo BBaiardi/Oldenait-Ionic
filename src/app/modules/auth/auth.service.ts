@@ -26,29 +26,42 @@ import {
   GooglePlus
 } from '@ionic-native/google-plus/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take, map } from 'rxjs/operators';
+import { DbService } from '../../services/db.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  user$: Observable<User>;
+  user$: Observable<any>;
+  isAdmin: boolean;
   public cameraImage: string;
 
   constructor(public afAuth: AngularFireAuth,
     public afs: AngularFirestore,
+    private db: DbService,
     private router: Router,
     public facebook: Facebook,
     public gp: GooglePlus,
     private platform: Platform,
     private camera: Camera) {
-      // this.user = this.afAuth.authState;
+      // this.user$ = this.afAuth.authState;
       this.user$ = this.afAuth.authState.pipe(
         switchMap(user => {
           if (user) {
-            user.getIdTokenResult().then(idTokenResult => {
-              console.log(idTokenResult.claims);
+            return this.db.doc$(`users/${user.uid}`);
+          } else {
+            return of(null);
+          }
+        })
+      );
+      /* this.user$ = this.afAuth.authState.pipe(
+        switchMap(user => {
+          if (user) {
+            user.getIdTokenResult(true).then(idTokenResult => {
+              this.isAdmin = idTokenResult.claims.admin;
+              console.log(this.isAdmin);
             });
             return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
           } else {
@@ -65,6 +78,14 @@ export class AuthService {
     });*/
   }
 
+  clubId() {
+    return this.user$.pipe(
+      take(1),
+      map(user => user && user.clubId)
+    )
+    .toPromise();
+  }
+
   async emailLogin(email: string, password: string) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password).catch(error => {
       console.log(error);
@@ -72,7 +93,13 @@ export class AuthService {
   }
 
   async signUp(email: string, password: string) {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(userCredential => {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password).catch(error => {
+      const errorCode = error.code;
+      if (errorCode === 'auth/email-already-in-use') {
+        alert('El correo electrónico ya se encuentra en uso');
+      }
+    });
+    /* return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(userCredential => {
       this.afs.doc(`users/${userCredential.user.uid}`)
         .set({
           uid: userCredential.user.uid,
@@ -80,7 +107,7 @@ export class AuthService {
         });
     }).catch(error => {
       console.log(error);
-    });
+    }); */
   }
 
   async fbLogin() {
@@ -146,23 +173,9 @@ export class AuthService {
     return this.afAuth.auth.sendPasswordResetEmail(email).catch(err => console.log(err));
   }
 
-  /* logout() {
-    this.afAuth.auth.signOut().then(() => {
-      return this.router.navigate(['/']);
-    });
-  } */
-
   async logout() {
     await this.afAuth.auth.signOut();
     this.router.navigate(['/']);
-  }
-
-  get isAdmin() {
-    return this.user$.subscribe(user => {
-      user.getIdTokenResult().then(idTokenResult => {
-        return idTokenResult.claims.admin;
-      });
-    });
   }
 
 }

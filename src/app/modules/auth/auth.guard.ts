@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private afAuth: AngularFireAuth, private authService: AuthService) {}
+  constructor(private router: Router, private afAuth: AngularFireAuth) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -18,7 +17,7 @@ export class AuthGuard implements CanActivate {
         if (user) {
           resolve(true);
         } else {
-          console.log('Usuario no autenticado');
+          console.log('Usuario no autenticado. Debe autenticarse para navegar');
           this.router.navigate(['/']);
         }
       });

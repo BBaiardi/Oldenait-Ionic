@@ -5,5 +5,5 @@ export interface Event {
     date: Date;
     genres?: Map<string, boolean>;
     imageUrl?: string;
-    ticket: string;
+    ticket?: string;
 }
