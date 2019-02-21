@@ -2,7 +2,6 @@ import {
   Injectable
 } from '@angular/core';
 import {
-  User,
   auth
 } from 'firebase/app';
 import {
@@ -12,7 +11,7 @@ import {
   Observable, of
 } from 'rxjs';
 import {
-  AngularFirestore
+  AngularFirestore, AngularFirestoreDocument
 } from '@angular/fire/firestore';
 import {
   Router
@@ -28,14 +27,14 @@ import {
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { switchMap, take, map } from 'rxjs/operators';
 import { DbService } from '../../services/db.service';
+import { User } from './user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  user$: Observable<any>;
-  isAdmin: boolean;
+  user$: Observable<User>;
   public cameraImage: string;
 
   constructor(public afAuth: AngularFireAuth,
@@ -145,6 +144,19 @@ export class AuthService {
           console.log(err);
         });
     }
+  }
+
+  private updateUserData(user) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+
+    const data = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL
+    };
+
+    return userRef.set(data, { merge: true });
   }
 
   async updateProfile(name: string, photoUrl: string) {

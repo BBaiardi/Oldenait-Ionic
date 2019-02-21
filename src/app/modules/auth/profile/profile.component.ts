@@ -20,7 +20,11 @@ import {
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(public auth: AuthService, private storage: AngularFireStorage) {}
+  user;
+
+  constructor(public auth: AuthService, private storage: AngularFireStorage) {
+    this.auth.user$.subscribe(user => this.user = user);
+  }
 
   ngOnInit() {}
 

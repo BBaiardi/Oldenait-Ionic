@@ -15,6 +15,13 @@ export class GoogleMapsPage implements OnInit {
   clubs$: Observable<Club[]>;
   lat: number;
   lng: number;
+  icon = {
+    url: '/assets/img/ODN-Marker.png',
+    scaledSize: {
+      height: 50,
+      width: 50
+    }
+  };
 
   constructor(private platform: Platform, private clubService: ClubService, private geolocation: Geolocation) { }
 

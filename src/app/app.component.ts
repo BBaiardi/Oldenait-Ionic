@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './modules/auth/auth.service';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -27,9 +27,4 @@ export class AppComponent {
       });
     }
   }
-
-  logout() {
-    return this.auth.logout();
-  }
-
 }

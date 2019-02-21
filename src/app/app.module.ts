@@ -40,9 +40,12 @@ import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 // Angular InstantSearch import
 import { NgAisModule } from 'angular-instantsearch';
 
+import { NavbarComponent } from './components/navbar/navbar.component';
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavbarComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [],

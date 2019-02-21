@@ -15,4 +15,5 @@
       <ion-card-subtitle>{{ user.email }}</ion-card-subtitle>
     </ion-card-header>
   </ion-card>
+  <ion-button *ngIf="auth.canEdit(user)">CACA</ion-button>
 </ion-content>

@@ -10,12 +10,11 @@
 <ion-content>
   <agm-map [latitude]="lat" [longitude]="lng" [zoom]="12">
     <agm-marker [latitude]="lat" [longitude]="lng">
-      <agm-info-window>Tu posición</agm-info-window>
+      <agm-info-window>Te encuentras aquí</agm-info-window>
     </agm-marker>
-    <agm-marker *ngFor="let club of clubs$ | async" [latitude]="club.latitude" [longitude]="club.longitude">
+    <agm-marker *ngFor="let club of clubs$ | async" [latitude]="club.latitude" [longitude]="club.longitude"  [iconUrl]="icon">
       <agm-snazzy-info-window [closeWhenOthersOpen]="true">
         <ng-template>
-          <img [src]="club.imageUrl">
           <h1>{{ club.name }}</h1>
           {{ club.address }}
           <p>{{ club.website }}</p>

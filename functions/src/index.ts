@@ -1,6 +1,5 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import { user } from 'firebase-functions/lib/providers/auth';
 
 admin.initializeApp();
 
@@ -27,11 +26,11 @@ export const addAdmin = functions.https.onCall((data, context) => {
 });
 
 async function grantAdminRole(email: string): Promise<void> {
-    const user = await admin.auth().getUserByEmail(email);
-    if (user.customClaims && (user.customClaims as any).admin === true) {
+    const userRecord = await admin.auth().getUserByEmail(email);
+    if (userRecord.customClaims && (userRecord.customClaims as any).admin === true) {
         return;
     }
-    return admin.auth().setCustomUserClaims(user.uid, {
+    return admin.auth().setCustomUserClaims(userRecord.uid, {
         admin: true
     });
 }
@@ -53,34 +52,34 @@ admin.auth().getUserByEmail('baiardibruno@gmail.com').then((user) => {
     });
 }); */
 
-export const addUserToFirestoreOnCreate = functions.auth.user().onCreate(user => {
+export const addUserToFirestoreOnCreate = functions.auth.user().onCreate(userRecord => {
     const data = {
-        displayName: user.displayName,
-        email: user.email,
-        photoURL: user.photoURL,
-        uid: user.uid
+        displayName: userRecord.displayName,
+        email: userRecord.email,
+        photoURL: userRecord.photoURL,
+        uid: userRecord.uid
     }
-    return admin.firestore().collection('users').add(data).then(() => {
-        console.log('Registro agregado correctamente!')
-    }).catch((error) => {
-        console.log(error);
-    });
+        return admin.firestore().collection('users').add(data).then(() => {
+            console.log('Registro agregado correctamente!');
+        }).catch(error => {
+            console.log(error);
+        });
 });
 
-export const processSignUp = functions.auth.user().onCreate((userRecord) => {
+/* export const processSignUp = functions.auth.user().onCreate(async (userRecord) => {
     if (userRecord.email && userRecord.emailVerified) {
         const customClaims = {
             admin: true
         }
-        return admin.auth().setCustomUserClaims(userRecord.uid, customClaims)
-            .then(() => {
-                const metadataRef = admin.firestore().collection(`users/${userRecord.uid}`);
-                return metadataRef.add({refreshTime: new Date().getTime()});
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        try {
+            await admin.auth().setCustomUserClaims(userRecord.uid, customClaims);
+            const metadataRef = admin.firestore().collection(`users/${userRecord.uid}`);
+            return metadataRef.add({ refreshTime: new Date().getTime() });
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
-});
+}); */
 
 

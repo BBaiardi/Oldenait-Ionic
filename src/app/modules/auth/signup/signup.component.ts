@@ -53,29 +53,10 @@ export class SignupComponent implements OnInit {
   async signUp() {
     const email = this.signUpForm.value['email'];
     const password = this.signUpForm.value['password'];
-    const alert = await this.alertCtrl.create({
-      header: 'Creación de usuario',
-      message: '¿Confirma?',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-            console.log('Operación cancelada');
-          }
-        }, {
-          text: 'Aceptar',
-          handler: () => {
-            this.auth.signUp(email, password).then(() => {
-              this.presentToast().then(() => {
-                this.router.navigate(['/home']);
-              });
-            });
-          }
-        }
-      ]
+    return this.auth.signUp(email, password).then(() => {
+      this.presentToast();
+      this.router.navigate(['/home']);
     });
-    await alert.present();
   }
 
   async presentToast() {
