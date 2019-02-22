@@ -37,6 +37,10 @@
         <div class="error-message" *ngIf="password.hasError('maxlength')">
             *La contraseña no debe exceder los 25 caracteres
         </div>
+        <ion-item lines="none">
+            <ion-checkbox slot="start" formControlName="admin" checked="false"></ion-checkbox>
+            <ion-label>¿Es Administrador?</ion-label>
+        </ion-item>
         <ion-button type="submit" [disabled]="!signUpForm.valid">Registrarse</ion-button>
     </form>
 </ion-content>

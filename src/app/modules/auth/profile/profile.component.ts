@@ -12,6 +12,8 @@ import {
 import {
   AngularFireStorage
 } from '@angular/fire/storage';
+import { finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -20,10 +22,9 @@ import {
 })
 export class ProfileComponent implements OnInit {
 
-  user;
+  imageURL: Observable<string>;
 
   constructor(public auth: AuthService, private storage: AngularFireStorage) {
-    this.auth.user$.subscribe(user => this.user = user);
   }
 
   ngOnInit() {}
@@ -33,6 +34,7 @@ export class ProfileComponent implements OnInit {
     const filePath = `users/${this.auth.afAuth.auth.currentUser.uid}/profile_pic/${file.name}`;
     const ref = this.storage.ref(filePath);
     const task = ref.put(file);
+    task.snapshotChanges().pipe(finalize(() => this.imageURL = ref.getDownloadURL())).subscribe();
   }
 
   public logout() {

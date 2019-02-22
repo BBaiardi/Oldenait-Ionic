@@ -45,7 +45,6 @@ export class AuthService {
     public gp: GooglePlus,
     private platform: Platform,
     private camera: Camera) {
-      // this.user$ = this.afAuth.authState;
       this.user$ = this.afAuth.authState.pipe(
         switchMap(user => {
           if (user) {
@@ -55,26 +54,6 @@ export class AuthService {
           }
         })
       );
-      /* this.user$ = this.afAuth.authState.pipe(
-        switchMap(user => {
-          if (user) {
-            user.getIdTokenResult(true).then(idTokenResult => {
-              this.isAdmin = idTokenResult.claims.admin;
-              console.log(this.isAdmin);
-            });
-            return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
-          } else {
-            return of(null);
-          }
-        })
-      );
-      /* this.afAuth.auth.onAuthStateChanged(user => {
-      if (user) {
-        user.getIdTokenResult().then(idTokenResult => {
-          console.log(idTokenResult);
-        });
-      }
-    });*/
   }
 
   clubId() {
@@ -91,36 +70,59 @@ export class AuthService {
     });
   }
 
-  async signUp(email: string, password: string) {
-    return this.afAuth.auth.createUserWithEmailAndPassword(email, password).catch(error => {
-      const errorCode = error.code;
-      if (errorCode === 'auth/email-already-in-use') {
-        alert('El correo electrónico ya se encuentra en uso');
-      }
+  registerUser(email: string, password: string) {
+    return new Promise((resolve, reject) => {
+      this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(userCredential => {
+        resolve(userCredential),
+        this.afs.doc(`users/${userCredential.user.uid}`)
+          .set({
+            uid: userCredential.user.uid,
+            email: userCredential.user.email,
+            roles: {
+              subscriber: true,
+              admin: false
+            }
+          }).catch(err => {
+            console.log(err);
+          });
+      });
     });
-    /* return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(userCredential => {
-      this.afs.doc(`users/${userCredential.user.uid}`)
-        .set({
-          uid: userCredential.user.uid,
-          email: userCredential.user.email
-        });
-    }).catch(error => {
-      console.log(error);
-    }); */
+  }
+
+  registerAdmin(email: string, password: string) {
+    return new Promise((resolve, reject) => {
+      this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(userCredential => {
+        resolve(userCredential),
+        this.afs.doc(`users/${userCredential.user.uid}`)
+          .set({
+            uid: userCredential.user.uid,
+            email: userCredential.user.email,
+            clubId: userCredential.user.uid,
+            roles: {
+              subscriber: false,
+              admin: true
+            }
+          }).catch(err => {
+            console.log(err);
+          });
+      });
+    });
   }
 
   async fbLogin() {
     if (this.platform.is('cordova')) {
       return await this.facebook.login(['email', 'public_profile'])
         .then(res => {
-          const credential = auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
-          this.afAuth.auth.signInAndRetrieveDataWithCredential(credential)
+          const fbCredential = auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
+          this.afAuth.auth.signInAndRetrieveDataWithCredential(fbCredential)
+            .then(credential => this.updateUserData(credential.user))
             .catch(err => {
               console.log(err);
             });
         });
     } else {
       return this.afAuth.auth.signInWithPopup(new auth.FacebookAuthProvider)
+        .then(credential => this.updateUserData(credential.user))
         .catch(err => {
           console.log(err);
         });
@@ -134,12 +136,14 @@ export class AuthService {
         'offline': true
       }).then(res => {
         const googleCredential = auth.GoogleAuthProvider.credential(res.idToken);
-        this.afAuth.auth.signInAndRetrieveDataWithCredential(googleCredential);
+        this.afAuth.auth.signInAndRetrieveDataWithCredential(googleCredential)
+          .then(credential => this.updateUserData(credential.user));
       }).catch(err => {
         console.log(err);
       });
     } else {
       return this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider)
+        .then(credential => this.updateUserData(credential.user))
         .catch(err => {
           console.log(err);
         });
@@ -153,7 +157,11 @@ export class AuthService {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
-      photoURL: user.photoURL
+      photoURL: user.photoURL,
+      roles: {
+        admin: false,
+        subscriber: true
+      }
     };
 
     return userRef.set(data, { merge: true });

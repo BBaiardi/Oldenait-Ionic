@@ -4,12 +4,10 @@ export interface User {
     displayName?: string;
     photoURL?: string;
     clubId?: string;
-    admin?: boolean;
     roles: Roles;
 }
 
 export interface Roles {
     subscriber?: boolean;
-    editor?: boolean;
     admin?: boolean;
 }

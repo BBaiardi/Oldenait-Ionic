@@ -38,7 +38,8 @@ export class SignupComponent implements OnInit {
           Validators.minLength(6),
           Validators.maxLength(25)
         ])
-      ]]
+      ]],
+      admin: ['']
     });
   }
 
@@ -53,10 +54,18 @@ export class SignupComponent implements OnInit {
   async signUp() {
     const email = this.signUpForm.value['email'];
     const password = this.signUpForm.value['password'];
-    return this.auth.signUp(email, password).then(() => {
-      this.presentToast();
-      this.router.navigate(['/home']);
-    });
+    const admin = this.signUpForm.value['admin'];
+    if (admin === true) {
+      return this.auth.registerAdmin(email, password).then(() => {
+        this.presentToast();
+        this.router.navigate(['/home']);
+      });
+    } else {
+      return this.auth.registerUser(email, password).then(() => {
+        this.presentToast();
+        this.router.navigate(['/home']);
+      });
+    }
   }
 
   async presentToast() {
