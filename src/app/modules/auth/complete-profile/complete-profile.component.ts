@@ -1,9 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { AngularFirestore } from '@angular/fire/firestore';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  AuthService
+} from '../auth.service';
+import {
+  Router
+} from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators
+} from '@angular/forms';
+import {
+  Camera,
+  CameraOptions
+} from '@ionic-native/camera/ngx';
+import {
+  AngularFirestore, AngularFirestoreDocument
+} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-complete-profile',
@@ -14,6 +30,7 @@ export class CompleteProfileComponent implements OnInit {
 
   public completeProfileForm: FormGroup;
   cameraImage: string;
+  dbRef: AngularFirestoreDocument<any>;
 
   constructor(public auth: AuthService,
     public afs: AngularFirestore,
@@ -21,23 +38,33 @@ export class CompleteProfileComponent implements OnInit {
     private fb: FormBuilder,
     private camera: Camera) {
     this.createForm();
-   }
-
-  ngOnInit() {
+    this.auth.user$.subscribe(user => {
+      if (user) {
+        this.dbRef = this.afs.doc(`clubs/${user.uid}`);
+      }
+    });
   }
+
+  ngOnInit() {}
 
   createForm() {
     this.completeProfileForm = this.fb.group({
-      displayName: ['', [
+      name: ['', [
         Validators.compose([
           Validators.required,
           Validators.minLength(5)
         ])
+      ]],
+      address: ['', [
+        Validators.required
+      ]],
+      website: ['', [
+        Validators.required
       ]]
     });
   }
 
-  getPicture(): Promise<any> {
+  getPicture(): Promise < any > {
     return new Promise(resolve => {
       const options: CameraOptions = {
         quality: 100,
@@ -54,18 +81,17 @@ export class CompleteProfileComponent implements OnInit {
     });
   }
 
-  completeProfile() {
-    this.auth.user$.subscribe(user => {
-      if (user) {
-        const displayName = this.completeProfileForm.value['displayName'];
-        return this.afs.doc(`users/${user.uid}`)
-          .set({
-            displayName: displayName,
-            photoURL: this.cameraImage
-          }, { merge: true }).then(() => {
-            this.router.navigate(['/home']);
-          });
-      }
+  async completeProfile() {
+    const name = this.completeProfileForm.value['name'];
+    const address = this.completeProfileForm.value['address'];
+    const website = this.completeProfileForm.value['website'];
+    const data = {
+      name: name,
+      address: address,
+      website: website
+    };
+    return this.dbRef.set(data, { merge: true }).then(() => {
+      this.router.navigate(['/home']);
     });
   }
 

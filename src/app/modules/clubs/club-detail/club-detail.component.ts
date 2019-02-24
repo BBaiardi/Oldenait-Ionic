@@ -6,6 +6,7 @@ import { ClubService } from '../club.service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-club-detail',
@@ -18,7 +19,7 @@ export class ClubDetailComponent implements OnInit {
   events$: Observable<Event[]>;
   private eventsCollectionRef: AngularFirestoreCollection<Event>;
 
-  constructor(private clubService: ClubService, private route: ActivatedRoute, private afs: AngularFirestore) {
+  constructor(private clubService: ClubService, private route: ActivatedRoute, private afs: AngularFirestore, public auth: AuthService) {
     const clubId = this.route.snapshot.paramMap.get('id');
     this.eventsCollectionRef = this.afs.collection<Event>('events', ref => ref.where('clubId', '==', clubId ));
     this.events$ = this.eventsCollectionRef.valueChanges();

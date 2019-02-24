@@ -9,6 +9,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
 import { SuperAdminComponent } from './super-admin/super-admin.component';
+import { IonicMapComponent } from '../../components/ionic-map/ionic-map.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { SuperAdminComponent } from './super-admin/super-admin.component';
     ProfileComponent,
     PasswordResetComponent,
     CompleteProfileComponent,
-    SuperAdminComponent
+    SuperAdminComponent,
+    IonicMapComponent
   ]
 })
 export class AuthModule { }

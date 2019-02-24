@@ -74,28 +74,6 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  /*fbLogin() {
-    this.facebook.login(['public_profile', 'user_photos', 'email', 'user_birthday'])
-    .then((res: FacebookLoginResponse) => {
-      if (res.status === 'connected') {
-        const fb_id = res.authResponse.userID;
-        const fb_token = res.authResponse.accessToken;
-        this.facebook.api('/me?fields=name,gender,birthday,email', []).then((user) => {
-          const gender = user.gender;
-          const birthday = user.birthday;
-          const name = user.name;
-          const email = user.email;
-          console.log(`Gender ${gender}, birthday ${birthday}, name ${name}, email ${email}`);
-        });
-        } else {
-          console.log('Ocurrio un error');
-        }
-      })
-      .catch((e) => {
-        console.log('Error logueando con Facebook', e);
-      });
-    }*/
-
   async showLoading() {
     const loading = await this.loadingCtrl.create({
       duration: 2000

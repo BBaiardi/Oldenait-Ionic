@@ -1,20 +1,30 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Complete su perfil</ion-title>
-  </ion-toolbar>  
+    <ion-title>Complete el perfil del club</ion-title>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+  <ion-label>Seleccione la ubicación en el mapa</ion-label>
+  <app-ionic-map></app-ionic-map>
   <ion-avatar (click)="auth.selectImage()">
-      <img src="https://img.icons8.com/material/24/000000/user.png">
+    <img src="https://img.icons8.com/material/24/000000/user.png">
   </ion-avatar>
   <ion-label>Agrega una foto</ion-label>
   <form [formGroup]="completeProfileForm" (ngSubmit)="completeProfile()">
     <ion-item>
       <ion-icon slot="start" name="person"></ion-icon>
-      <ion-label position="floating">Nombre de usuario</ion-label>
-      <ion-input type="text" formControlName="displayName"></ion-input>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input type="text" formControlName="name"></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-label position="floating">Dirección</ion-label>
+      <ion-input type="text" formControlName="address"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Sitio Web</ion-label>
+      <ion-input type="text" formControlName="website"></ion-input>
+    </ion-item>
+    <ion-button type="submit" [disabled]="!completeProfileForm.valid">Finalizar perfil</ion-button>
   </form>
-  <ion-button type="submit" [disabled]="!completeProfileForm.valid">Completar perfil</ion-button>
 </ion-content>

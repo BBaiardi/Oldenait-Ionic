@@ -58,7 +58,7 @@ export class SignupComponent implements OnInit {
     if (admin === true) {
       return this.auth.registerAdmin(email, password).then(() => {
         this.presentToast();
-        this.router.navigate(['/home']);
+        this.router.navigate(['/creacion-perfil']);
       });
     } else {
       return this.auth.registerUser(email, password).then(() => {
