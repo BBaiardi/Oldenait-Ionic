@@ -66,20 +66,4 @@ export const addUserToFirestoreOnCreate = functions.auth.user().onCreate(userRec
         });
 });
 
-/* export const processSignUp = functions.auth.user().onCreate(async (userRecord) => {
-    if (userRecord.email && userRecord.emailVerified) {
-        const customClaims = {
-            admin: true
-        }
-        try {
-            await admin.auth().setCustomUserClaims(userRecord.uid, customClaims);
-            const metadataRef = admin.firestore().collection(`users/${userRecord.uid}`);
-            return metadataRef.add({ refreshTime: new Date().getTime() });
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-}); */
-
 

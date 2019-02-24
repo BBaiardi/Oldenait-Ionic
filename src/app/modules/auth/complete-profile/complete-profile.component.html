@@ -4,13 +4,12 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-label>Seleccione la ubicación en el mapa</ion-label>
+<ion-content padding>
+  <ion-item lines="none" text-center>
+    <ion-label>Seleccione la ubicación en el mapa</ion-label>
+  </ion-item>
   <app-ionic-map></app-ionic-map>
-  <ion-avatar (click)="auth.selectImage()">
-    <img src="https://img.icons8.com/material/24/000000/user.png">
-  </ion-avatar>
-  <ion-label>Agrega una foto</ion-label>
+  <ion-button (click)="takePicture()">Subir foto de portada</ion-button>
   <form [formGroup]="completeProfileForm" (ngSubmit)="completeProfile()">
     <ion-item>
       <ion-icon slot="start" name="person"></ion-icon>

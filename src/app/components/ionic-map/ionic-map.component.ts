@@ -16,8 +16,7 @@ export class IonicMapComponent implements OnInit {
   map: GoogleMap;
   clubId: string;
 
-  constructor(private geo: Geolocation,
-   private platform: Platform,
+  constructor(private platform: Platform,
    private afs: AngularFirestore,
    private auth: AuthService) { }
 

@@ -36,7 +36,7 @@ export class EventFormComponent implements OnInit {
       date: ['', [
         Validators.required
       ]],
-      genres: [''],
+      genre: [''],
       ticket: ['']
     });
   }

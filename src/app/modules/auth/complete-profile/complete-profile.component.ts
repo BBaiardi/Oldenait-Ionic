@@ -29,7 +29,7 @@ import {
 export class CompleteProfileComponent implements OnInit {
 
   public completeProfileForm: FormGroup;
-  cameraImage: string;
+  public cameraImage: string = null;
   dbRef: AngularFirestoreDocument<any>;
 
   constructor(public auth: AuthService,
@@ -70,7 +70,8 @@ export class CompleteProfileComponent implements OnInit {
         quality: 100,
         destinationType: this.camera.DestinationType.DATA_URL,
         encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE
+        mediaType: this.camera.MediaType.PICTURE,
+        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
       };
       this.camera.getPicture(options).then((imageData) => {
         this.cameraImage = 'data:image/jpeg;base64,' + imageData;
@@ -81,6 +82,20 @@ export class CompleteProfileComponent implements OnInit {
     });
   }
 
+  takePicture() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    };
+    this.camera.getPicture(options).then(imageData => {
+      this.cameraImage = `data:image/jpeg;base64,${imageData}`;
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
   async completeProfile() {
     const name = this.completeProfileForm.value['name'];
     const address = this.completeProfileForm.value['address'];
@@ -88,7 +103,8 @@ export class CompleteProfileComponent implements OnInit {
     const data = {
       name: name,
       address: address,
-      website: website
+      website: website,
+      imageUrl: this.cameraImage
     };
     return this.dbRef.set(data, { merge: true }).then(() => {
       this.router.navigate(['/home']);
