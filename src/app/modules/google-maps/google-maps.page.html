@@ -15,7 +15,7 @@
     <agm-marker *ngFor="let club of clubs$ | async" [latitude]="club.latitude" [longitude]="club.longitude"  [iconUrl]="icon">
       <agm-snazzy-info-window [closeWhenOthersOpen]="true">
         <ng-template>
-          <h1>{{ club.name }}</h1>
+          <a [routerLink]="['/club', club.id]">{{ club.name }}</a>
           {{ club.address }}
           <p>{{ club.website }}</p>
         </ng-template>
