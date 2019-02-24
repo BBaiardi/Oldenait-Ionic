@@ -19,10 +19,17 @@
           *Ingrese su contraseña
         </div>
         <ion-button expand="full" type="submit" [disabled]="!loginForm.valid">
-            <ion-icon slot="start" name="log-in"></ion-icon>
-            Login
+          <ion-icon slot="start" name="log-in"></ion-icon>
+          Login
         </ion-button>
       </form>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item lines="none" text-center [routerLink]="['/recupero-contraseña']">
+          <ion-label color="primary">¿Olvidaste tu contraseña?</ion-label>
+        </ion-item>
+      </ion-col>
     </ion-row>
     <ion-row justify-content-center padding>
       <ion-label>o ingresá con</ion-label>
@@ -47,20 +54,9 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <div text-center>
-          <ion-item lines="none">
-            <ion-label>¿No tenés una cuenta?</ion-label>
-          </ion-item>
-        </div>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <div text-center>
-          <ion-button color="primary" fill="clear" [routerLink]="['/registro']">
-            Creá un usuario
-          </ion-button>
-        </div>
+        <ion-item lines="none" text-center [routerLink]="['/registro']">
+          <ion-label color="primary">¿No tenés una cuenta? Crea un usuario</ion-label>
+        </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>

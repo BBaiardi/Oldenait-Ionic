@@ -20,6 +20,7 @@ import {
 import {
   AngularFirestore, AngularFirestoreDocument
 } from '@angular/fire/firestore';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-complete-profile',
@@ -36,7 +37,8 @@ export class CompleteProfileComponent implements OnInit {
     public afs: AngularFirestore,
     private router: Router,
     private fb: FormBuilder,
-    private camera: Camera) {
+    private camera: Camera,
+    public toastCtrl: ToastController) {
     this.createForm();
     this.auth.user$.subscribe(user => {
       if (user) {
@@ -107,8 +109,17 @@ export class CompleteProfileComponent implements OnInit {
       imageUrl: this.cameraImage
     };
     return this.dbRef.set(data, { merge: true }).then(() => {
+      this.presentToast();
       this.router.navigate(['/home']);
     });
+  }
+
+  async presentToast() {
+    const toast = await this.toastCtrl.create({
+      message: '¡El perfil fue completado exitosamente!',
+      duration: 2000
+    });
+    toast.present();
   }
 
 }

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Event } from '../event';
 import { EventService } from '../event.service';
-import { DbService } from '../../../services/db.service';
 
 @Component({
   selector: 'app-event-list',

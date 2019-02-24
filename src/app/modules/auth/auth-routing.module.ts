@@ -6,7 +6,7 @@ import { SignupComponent } from './signup/signup.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
-import { SuperAdminComponent } from './super-admin/super-admin.component';
+import { AuthGuard } from './auth.guard';
 
 const authRoutes: Routes = [
     {
@@ -19,19 +19,17 @@ const authRoutes: Routes = [
     },
     {
         path: 'perfil',
-        component: ProfileComponent
+        component: ProfileComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'creacion-perfil',
-        component: CompleteProfileComponent
+        component: CompleteProfileComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'recupero-contraseña',
         component: PasswordResetComponent
-    },
-    {
-        path: 'super-admin',
-        component: SuperAdminComponent
     }
 ];
 

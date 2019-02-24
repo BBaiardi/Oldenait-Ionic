@@ -8,7 +8,6 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { ProfileComponent } from './profile/profile.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
-import { SuperAdminComponent } from './super-admin/super-admin.component';
 import { IonicMapComponent } from '../../components/ionic-map/ionic-map.component';
 
 @NgModule({
@@ -24,7 +23,6 @@ import { IonicMapComponent } from '../../components/ionic-map/ionic-map.componen
     ProfileComponent,
     PasswordResetComponent,
     CompleteProfileComponent,
-    SuperAdminComponent,
     IonicMapComponent
   ]
 })

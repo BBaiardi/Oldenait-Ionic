@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { EventListComponent } from './event-list/event-list.component';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 import { EventManagementComponent } from './event-management/event-management.component';
+import { AuthGuard } from '../auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -11,11 +12,13 @@ const routes: Routes = [
   },
   {
     path: 'evento/:id',
-    component: EventDetailComponent
+    component: EventDetailComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'manejo-eventos',
-    component: EventManagementComponent
+    component: EventManagementComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

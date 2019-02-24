@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-password-reset',
@@ -11,7 +12,7 @@ export class PasswordResetComponent implements OnInit {
 
   public passwordResetForm: FormGroup;
 
-  constructor(public auth: AuthService, public fb: FormBuilder) {
+  constructor(public auth: AuthService, public fb: FormBuilder, private router: Router) {
     this.createForm();
    }
 
@@ -30,9 +31,11 @@ export class PasswordResetComponent implements OnInit {
     return this.passwordResetForm.get('email');
   }
 
-  passwordReset() {
+  async passwordReset() {
     const email = this.passwordResetForm.value['email'];
-    return this.auth.passwordReset(email);
+    return this.auth.passwordReset(email).then(() => {
+      this.router.navigate(['/']);
+    });
   }
 
 }
