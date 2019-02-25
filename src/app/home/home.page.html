@@ -6,11 +6,20 @@
     <ion-title>Home</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content padding>
+<ion-content margin-top>
+  <!--  <ion-img src="../assets/img/fondo-disco.jpg"></ion-img> -->
+  <ion-img style="width: 50%; margin: auto" src="../assets/img/ODN - Logo_Horiz.png"></ion-img>
+  <h2 text-center> La busqueda termino, esta es tu salida</h2>
+  <ion-row center>
+    <ion-col text-center>
+      <ion-button color="primary" size="large" [routerLink]="['/mapa']">Buscar en el Mapa</ion-button>
+      <ion-button color="secondary" size="large" [routerLink]="['/eventos']">Buscar por Palabra</ion-button>
+    </ion-col>
+  </ion-row>
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar>
-    <ion-title>Footer</ion-title>
+  <ion-toolbar text-center>
+    <ion-title>Ol De Nait ® | 2019</ion-title>
   </ion-toolbar>
 </ion-footer>

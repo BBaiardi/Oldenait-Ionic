@@ -3,7 +3,7 @@ export interface Event {
     title: string;
     description: string;
     date: Date;
-    genres?: string;
+    genre?: string;
     imageUrl?: string;
     ticket?: string;
 }

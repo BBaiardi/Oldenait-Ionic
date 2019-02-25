@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Component, OnInit, ViewChild } from '@angular/core';
 // tslint:disable-next-line:max-line-length
 import { GoogleMap, GoogleMaps, GoogleMapsEvent, Marker, Environment, LatLng, GoogleMapsAnimation, CameraPosition, ILatLng } from '@ionic-native/google-maps/ngx';
 import { Platform } from '@ionic/angular';
@@ -14,6 +13,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class IonicMapComponent implements OnInit {
 
   map: GoogleMap;
+  mapRef: google.maps.Map;
+  mapElement: HTMLElement;
+  position;
   clubId: string;
 
   constructor(private platform: Platform,
@@ -22,7 +24,11 @@ export class IonicMapComponent implements OnInit {
 
   async ngOnInit() {
     this.platform.ready();
-    this.loadMap();
+    if (this.platform.is('cordova')) {
+      this.loadMap();
+    } else {
+      this.loadMapJS();
+    }
   }
 
   /*ionViewDidLoad() {
@@ -89,6 +95,34 @@ export class IonicMapComponent implements OnInit {
       });
     });
 
+  }
+
+  async loadMapJS() {
+    this.mapElement = document.getElementById('map');
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.position = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+      });
+    }
+    const options = {
+      center: this.position,
+      zoom: 15
+    };
+    const latLng = new google.maps.LatLng(32, 32);
+    this.mapRef = new google.maps.Map(this.mapElement, options);
+    google.maps.event.addListenerOnce(this.mapRef, 'click', (e) => {
+      this.addMarker(e.lat, e.lng);
+    });
+  }
+
+  addMarker(lat: number, lng: number) {
+    const marker = new google.maps.Marker({
+      position: {lat, lng},
+      map: this.mapRef
+    });
   }
 
 }

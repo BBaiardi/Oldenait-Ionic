@@ -12,6 +12,7 @@
     <ion-row>
       <ion-col size-xs="12" size-sm="6" side-md="4" size-lg="3" *ngFor="let club of clubs$ | async" [routerLink]="['/club', club.id]">
         <ion-card>
+          <img [src]="club.imageUrl">
           <ion-card-content>
             <ion-card-title text-center>
               {{ club.name }}
