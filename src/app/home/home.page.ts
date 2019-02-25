@@ -8,7 +8,18 @@ import { AuthService } from '../modules/auth/auth.service';
 })
 export class HomePage {
 
-  constructor() {
+  public isAdmin: any;
+
+  constructor(public auth: AuthService) {
+    this.getCurrentUser();
+  }
+
+  getCurrentUser() {
+    this.auth.user$.subscribe(user => {
+      if (user) {
+        this.isAdmin = user.roles.admin;
+      }
+    });
   }
 
 }

@@ -9,6 +9,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
 import { IonicMapComponent } from '../../components/ionic-map/ionic-map.component';
+import { ProfileFormComponent } from './profile-form/profile-form.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { IonicMapComponent } from '../../components/ionic-map/ionic-map.componen
     ProfileComponent,
     PasswordResetComponent,
     CompleteProfileComponent,
-    IonicMapComponent
+    IonicMapComponent,
+    ProfileFormComponent
   ]
 })
 export class AuthModule { }

@@ -6,7 +6,7 @@
     <ion-title>Home</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content margin-top>
+<ion-content margin-top *ngIf="!isAdmin == true; else AdminUI">
   <!--  <ion-img src="../assets/img/fondo-disco.jpg"></ion-img> -->
   <ion-img style="width: 50%; margin: auto" src="../assets/img/ODN - Logo_Horiz.png"></ion-img>
   <h2 text-center> La busqueda termino, esta es tu salida</h2>
@@ -23,3 +23,11 @@
     <ion-title>Ol De Nait ® | 2019</ion-title>
   </ion-toolbar>
 </ion-footer>
+
+<ng-template #AdminUI>
+  <ion-row center>
+    <ion-col text-center>
+      <ion-button color="primary" size="large" [routerLink]="['/manejo-eventos']">Ver Eventos</ion-button>
+    </ion-col>
+  </ion-row>
+</ng-template>

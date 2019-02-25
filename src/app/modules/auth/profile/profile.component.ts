@@ -6,14 +6,12 @@ import {
   AuthService
 } from '../auth.service';
 import {
-  DomSanitizer,
-  SafeResourceUrl
-} from '@angular/platform-browser';
-import {
   AngularFireStorage
 } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -24,7 +22,10 @@ export class ProfileComponent implements OnInit {
 
   imageURL: Observable<string>;
 
-  constructor(public auth: AuthService, private storage: AngularFireStorage) {
+  constructor(public auth: AuthService,
+    public alertCtrl: AlertController,
+    private router: Router,
+    private storage: AngularFireStorage) {
   }
 
   ngOnInit() {}
@@ -39,6 +40,25 @@ export class ProfileComponent implements OnInit {
 
   public logout() {
     this.auth.logout();
+  }
+
+  async deleteUser() {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirma borrar usuario?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        }, {
+          text: 'Aceptar',
+          handler: async () => {
+            await this.auth.afAuth.auth.currentUser.delete();
+            this.router.navigate(['/']);
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
 }
