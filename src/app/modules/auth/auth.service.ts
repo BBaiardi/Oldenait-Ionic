@@ -19,7 +19,7 @@ import {
 import {
   Facebook} from '@ionic-native/facebook/ngx';
 import {
-  Platform
+  Platform, ToastController
 } from '@ionic/angular';
 import {
   GooglePlus
@@ -44,7 +44,8 @@ export class AuthService {
     public facebook: Facebook,
     public gp: GooglePlus,
     private platform: Platform,
-    private camera: Camera) {
+    private camera: Camera,
+    public toastCtrl: ToastController) {
       this.user$ = this.afAuth.authState.pipe(
         switchMap(user => {
           if (user) {
@@ -66,7 +67,14 @@ export class AuthService {
 
   async emailLogin(email: string, password: string) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password).catch(error => {
-      console.log(error);
+      const errorCode = error.code;
+      if (errorCode === 'auth/wrong-password') {
+        this.showToast('Contraseña incorrecta!');
+      } else if (errorCode === 'auth/user-not-found') {
+        this.showToast('Usuario no encontrado!');
+      }  else {
+        console.log(error);
+      }
     });
   }
 
@@ -187,6 +195,16 @@ export class AuthService {
         resolve(this.cameraImage);
       });
     });
+  }
+
+  async showToast(message: string) {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      position: 'bottom',
+      color: 'danger',
+      duration: 2000
+    });
+    toast.present();
   }
 
   async passwordReset(email: string) {

@@ -4,6 +4,8 @@ export interface Club {
     imageUrl: string;
     address: string;
     website: string;
+    rrpp_name?: string;
+    rrpp_tel?: string;
     latitude: number;
     longitude: number;
 }

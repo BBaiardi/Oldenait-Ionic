@@ -8,9 +8,9 @@
 </ion-header>
 
 <ion-content padding *ngIf="club$ | async as club">
-  <h1>{{ club.name }}</h1>
-  <h2>{{ club.website }}</h2>
-  <h3>Caretelera de eventos</h3>
+    <ion-text color="primary"><h1 text-center>{{ club.name }}</h1></ion-text>
+    <ion-text color="secondary"><h3 color="secondary" text-center>{{ club.website }}</h3></ion-text>
+  <h3 text-center>Próximos eventos</h3>
   <ion-grid>
     <ion-row>
       <ion-col size-xs="12" size-sm="6" side-md="4" size-lg="3" *ngFor="let event of events$ | async" [routerLink]="['/evento', event.id]">
@@ -25,6 +25,6 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <h4> RRPP Oficial: {{ club.rrpp_name }}</h4>
-  <h5> <ion-icon name="call"></ion-icon> {{ club.rrpp_tel }} </h5>
+  <h4 text-center> RRPP Oficial: {{ club.rrpp_name }}</h4>
+  <h5 text-center> <ion-icon name="call"></ion-icon> {{ club.rrpp_tel }} </h5>
 </ion-content>
