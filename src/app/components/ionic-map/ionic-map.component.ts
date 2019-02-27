@@ -1,9 +1,30 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 // tslint:disable-next-line:max-line-length
-import { GoogleMap, GoogleMaps, GoogleMapsEvent, Marker, Environment, LatLng, GoogleMapsAnimation, CameraPosition, ILatLng } from '@ionic-native/google-maps/ngx';
-import { Platform } from '@ionic/angular';
-import { AuthService } from '../../modules/auth/auth.service';
-import { AngularFirestore } from '@angular/fire/firestore';
+import {
+  GoogleMap,
+  GoogleMaps,
+  GoogleMapsEvent,
+  Marker,
+  Environment,
+  LatLng,
+  GoogleMapsAnimation,
+  CameraPosition,
+  ILatLng
+} from '@ionic-native/google-maps/ngx';
+import {
+  Platform
+} from '@ionic/angular';
+import {
+  AuthService
+} from '../../modules/auth/auth.service';
+import {
+  AngularFirestore
+} from '@angular/fire/firestore';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'app-ionic-map',
@@ -19,8 +40,15 @@ export class IonicMapComponent implements OnInit {
   clubId: string;
 
   constructor(private platform: Platform,
-   private afs: AngularFirestore,
-   private auth: AuthService) { }
+    private geo: Geolocation,
+    private afs: AngularFirestore,
+    private auth: AuthService) {
+      this.auth.user$.subscribe(user => {
+        if (user) {
+          this.clubId = user.clubId;
+        }
+      });
+    }
 
   async ngOnInit() {
     this.platform.ready();
@@ -30,10 +58,6 @@ export class IonicMapComponent implements OnInit {
       this.loadMapJS();
     }
   }
-
-  /*ionViewDidLoad() {
-    this.loadMap();
-  }*/
 
   loadMap() {
     Environment.setEnv({
@@ -52,33 +76,15 @@ export class IonicMapComponent implements OnInit {
         position: location.latLng,
         title: 'Tu posición'
       });
-      const position: CameraPosition<ILatLng> = {
+      const position: CameraPosition < ILatLng > = {
         target: marker.getPosition(),
         zoom: 16
       };
       this.map.animateCamera(position);
     });
-    /*this.map.addEventListener('click').subscribe(event => {
-      this.placeMarkerAndPanTo(event.latLng, this.map);
-    });*/
-    /*const marker: Marker = this.map.addMarkerSync({
-      position: {
-        lat: 43,
-        lng: -89
-      },
-      title: 'Ionic'
-    });
-    marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-      alert('Hola');
-    });*/
-    this.auth.user$.subscribe(user => {
-      if (user) {
-        this.clubId = user.clubId;
-      }
-    });
     this.map.addEventListenerOnce(GoogleMapsEvent.MAP_CLICK).then((params: any[]) => {
       const latLng: LatLng = params[0];
-      const coords: Array<number> = [latLng.lat, latLng.lng];
+      const coords: Array < number > = [latLng.lat, latLng.lng];
       const marker: Marker = this.map.addMarkerSync({
         position: latLng,
         title: 'Aquí se encuentra tu boliche!',
@@ -99,30 +105,50 @@ export class IonicMapComponent implements OnInit {
 
   async loadMapJS() {
     this.mapElement = document.getElementById('map');
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.position = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-      });
-    }
+    const myLocation = await this.getLocation();
     const options = {
-      center: this.position,
+      center: myLocation,
       zoom: 15
     };
-    const latLng = new google.maps.LatLng(32, 32);
     this.mapRef = new google.maps.Map(this.mapElement, options);
-    google.maps.event.addListenerOnce(this.mapRef, 'click', (e) => {
-      this.addMarker(e.lat, e.lng);
+    this.addMarker(myLocation.lat, myLocation.lng);
+    google.maps.event.addListenerOnce(this.mapRef, 'click', (event) => {
+      const location = event.latLng;
+      const marker = new google.maps.Marker({
+        position: location,
+        map: this.mapRef
+      });
+      this.afs.doc(`clubs/${this.clubId}`).set({
+        latitude: location.lat(),
+        longitude: location.lng()
+      }, {
+        merge: true
+      });
+      google.maps.event.addListener(marker, 'click', (e) => {
+        const infoWindow = new google.maps.InfoWindow({
+          content: 'Aquí se encuentra tu boliche!'
+        });
+        infoWindow.open(this.mapRef, marker);
+      });
     });
   }
 
   addMarker(lat: number, lng: number) {
     const marker = new google.maps.Marker({
-      position: {lat, lng},
+      position: {
+        lat,
+        lng
+      },
       map: this.mapRef
     });
+  }
+
+  async getLocation() {
+    const resp = await this.geo.getCurrentPosition();
+    return {
+      lat: resp.coords.latitude,
+      lng: resp.coords.longitude
+    };
   }
 
 }

@@ -56,23 +56,60 @@ export class SignupComponent implements OnInit {
     const password = this.signUpForm.value['password'];
     const admin = this.signUpForm.value['admin'];
     if (admin === true) {
-      return this.auth.registerAdmin(email, password).then(() => {
-        this.presentToast();
-        this.router.navigate(['/creacion-perfil']);
-      });
+      return this.registerNewAdmin(email, password);
     } else {
-      return this.auth.registerUser(email, password).then(() => {
-        this.presentToast();
-        this.router.navigate(['/home']);
-      });
+      /* return this.auth.afAuth.auth.createUserWithEmailAndPassword(email, password).catch(error => {
+        const errorCode = error.code;
+        if (errorCode === 'auth/email-already-in-use') {
+          console.log('Email en uso');
+        }
+      });*/
+      return this.registerNewUser(email, password);
     }
   }
 
-  async presentToast() {
-    const toast = await this.toastCtrl.create({
-      message: '¡El usuario fue creado correctamente!',
-      duration: 2000
+  async registerNewUser(email: string, password: string) {
+    return this.auth.afAuth.auth.createUserWithEmailAndPassword(email, password).then(userCredential => {
+      this.auth.afs.doc(`users/${userCredential.user.uid}`)
+        .set({
+          uid: userCredential.user.uid,
+          email: userCredential.user.email,
+          roles: {
+            subscriber: true,
+            admin: false
+          }
+        });
+        this.auth.showToast('Usuario creado exitosamente', 'success');
+        this.router.navigate(['/home']);
+    }).catch(error => {
+      const errorCode = error.code;
+      if (errorCode === 'auth/email-already-in-use') {
+        this.auth.showToast('El correo electrónico ya se encuentra en uso', 'danger');
+      }
+      this.signUpForm.reset();
     });
-    toast.present();
+  }
+
+  async registerNewAdmin(email: string, password: string) {
+    return this.auth.afAuth.auth.createUserWithEmailAndPassword(email, password).then(userCredential => {
+      this.auth.afs.doc(`users/${userCredential.user.uid}`)
+        .set({
+          uid: userCredential.user.uid,
+          email: userCredential.user.email,
+          clubId: userCredential.user.uid,
+          roles: {
+            subscriber: false,
+            admin: true
+          }
+        });
+        this.auth.showToast('Usuario creado exitosamente', 'success');
+        this.router.navigate(['/creacion-perfil']);
+    }).catch(error => {
+      const errorCode = error.code;
+      if (errorCode === 'auth/email-already-in-use') {
+        this.auth.showToast('El correo electrónico ya se encuentra en uso', 'danger');
+      }
+      this.signUpForm.reset();
+    });
   }
 }

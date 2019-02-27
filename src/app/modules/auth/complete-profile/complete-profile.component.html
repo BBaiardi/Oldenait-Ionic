@@ -1,15 +1,23 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Complete el perfil del club</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <ion-item lines="none" text-center>
-    <ion-label>Seleccione la ubicación en el mapa</ion-label>
+    <ion-label>PASO 1: Seleccione la ubicación en el mapa</ion-label>
   </ion-item>
   <app-ionic-map></app-ionic-map>
-  <ion-button (click)="takePicture()">Subir foto de portada</ion-button>
+
+  <ion-item lines="none" text-center>
+    <ion-label>PASO 2: Suba una foto de portada</ion-label>
+  </ion-item>
+  <input type="file" (change)="uploadFile($event)" class="fileUpload">
+  
+  <ion-item lines="none" text-center>
+    <ion-label>PASO 3: Complete los campos</ion-label>
+  </ion-item>
   <form [formGroup]="completeProfileForm" (ngSubmit)="completeProfile()">
     <ion-item>
       <ion-icon slot="start" name="person"></ion-icon>
@@ -23,7 +31,7 @@
     </ion-item>
     <ion-item>
       <ion-icon slot="start" name="at"></ion-icon>
-      <ion-label position="floating">Sitio Web</ion-label>
+      <ion-label position="floating">Sitio Web / Redes sociales</ion-label>
       <ion-input type="text" formControlName="website"></ion-input>
     </ion-item>
     <ion-button type="submit" [disabled]="!completeProfileForm.valid">Finalizar perfil</ion-button>

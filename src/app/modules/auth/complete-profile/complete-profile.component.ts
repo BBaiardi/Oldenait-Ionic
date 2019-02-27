@@ -14,13 +14,11 @@ import {
   Validators
 } from '@angular/forms';
 import {
-  Camera,
-  CameraOptions
-} from '@ionic-native/camera/ngx';
-import {
   AngularFirestore, AngularFirestoreDocument
 } from '@angular/fire/firestore';
 import { ToastController } from '@ionic/angular';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-complete-profile',
@@ -30,15 +28,14 @@ import { ToastController } from '@ionic/angular';
 export class CompleteProfileComponent implements OnInit {
 
   public completeProfileForm: FormGroup;
-  public cameraImage: string = null;
+  public imageUrl;
   dbRef: AngularFirestoreDocument<any>;
 
   constructor(public auth: AuthService,
     public afs: AngularFirestore,
+    public storage: AngularFireStorage,
     private router: Router,
-    private fb: FormBuilder,
-    private camera: Camera,
-    public toastCtrl: ToastController) {
+    private fb: FormBuilder) {
     this.createForm();
     this.auth.user$.subscribe(user => {
       if (user) {
@@ -66,38 +63,6 @@ export class CompleteProfileComponent implements OnInit {
     });
   }
 
-  getPicture(): Promise < any > {
-    return new Promise(resolve => {
-      const options: CameraOptions = {
-        quality: 100,
-        destinationType: this.camera.DestinationType.DATA_URL,
-        encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE,
-        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
-      };
-      this.camera.getPicture(options).then((imageData) => {
-        this.cameraImage = 'data:image/jpeg;base64,' + imageData;
-        resolve(this.cameraImage);
-      }).catch(err => {
-        console.log(err);
-      });
-    });
-  }
-
-  takePicture() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    };
-    this.camera.getPicture(options).then(imageData => {
-      this.cameraImage = `data:image/jpeg;base64,${imageData}`;
-    }).catch(err => {
-      console.log(err);
-    });
-  }
-
   async completeProfile() {
     const name = this.completeProfileForm.value['name'];
     const address = this.completeProfileForm.value['address'];
@@ -106,20 +71,21 @@ export class CompleteProfileComponent implements OnInit {
       name: name,
       address: address,
       website: website,
-      imageUrl: this.cameraImage
+      imageUrl: this.imageUrl
     };
-    return this.dbRef.set(data, { merge: true }).then(() => {
-      this.presentToast();
-      this.router.navigate(['/home']);
+    this.dbRef.set(data, {
+      merge: true
     });
+    this.auth.showToast('!El perfil fue completado exitosamente!', 'success');
+    return this.router.navigate(['/home']);
   }
 
-  async presentToast() {
-    const toast = await this.toastCtrl.create({
-      message: '¡El perfil fue completado exitosamente!',
-      duration: 2000
-    });
-    toast.present();
+  uploadFile(event) {
+    const file = event.target.files[0];
+    const filePath = `users/${this.auth.afAuth.auth.currentUser.uid}/profile_pic/${file.name}`;
+    const ref = this.storage.ref(filePath);
+    const task = ref.put(file);
+    task.snapshotChanges().pipe(finalize(() => this.imageUrl = ref.getDownloadURL())).subscribe();
   }
 
 }

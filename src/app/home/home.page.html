@@ -6,10 +6,9 @@
     <ion-title>Home</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content margin-top *ngIf="!isAdmin == true; else AdminUI">
-  <!--  <ion-img src="../assets/img/fondo-disco.jpg"></ion-img> -->
+<ion-content margin-top *ngIf="!isAdmin == true; else AdminUI"> 
   <ion-img style="width: 50%; margin: auto" src="../assets/img/ODN - Logo_Horiz.png"></ion-img>
-  <h2 text-center> La busqueda termino, esta es tu salida</h2>
+  <h2 text-center> La búsqueda terminó, esta es tu salida</h2>
   <ion-row center>
     <ion-col text-center>
       <ion-button color="primary" size="large" [routerLink]="['/mapa']">Buscar en el Mapa</ion-button>

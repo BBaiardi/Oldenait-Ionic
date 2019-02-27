@@ -69,51 +69,12 @@ export class AuthService {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password).catch(error => {
       const errorCode = error.code;
       if (errorCode === 'auth/wrong-password') {
-        this.showToast('Contraseña incorrecta!');
+        this.showToast('Contraseña incorrecta', 'danger');
       } else if (errorCode === 'auth/user-not-found') {
-        this.showToast('Usuario no encontrado!');
+        this.showToast('Usuario no encontrado', 'danger');
       }  else {
         console.log(error);
       }
-    });
-  }
-
-  registerUser(email: string, password: string) {
-    return new Promise((resolve, reject) => {
-      this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(userCredential => {
-        resolve(userCredential),
-        this.afs.doc(`users/${userCredential.user.uid}`)
-          .set({
-            uid: userCredential.user.uid,
-            email: userCredential.user.email,
-            roles: {
-              subscriber: true,
-              admin: false
-            }
-          }).catch(err => {
-            console.log(err);
-          });
-      });
-    });
-  }
-
-  registerAdmin(email: string, password: string) {
-    return new Promise((resolve, reject) => {
-      this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(userCredential => {
-        resolve(userCredential),
-        this.afs.doc(`users/${userCredential.user.uid}`)
-          .set({
-            uid: userCredential.user.uid,
-            email: userCredential.user.email,
-            clubId: userCredential.user.uid,
-            roles: {
-              subscriber: false,
-              admin: true
-            }
-          }).catch(err => {
-            console.log(err);
-          });
-      });
     });
   }
 
@@ -197,12 +158,12 @@ export class AuthService {
     });
   }
 
-  async showToast(message: string) {
+  async showToast(message: string, color: string) {
     const toast = await this.toastCtrl.create({
       message: message,
       position: 'bottom',
-      color: 'danger',
-      duration: 2000
+      color: color,
+      duration: 3000
     });
     toast.present();
   }
