@@ -1,20 +1,26 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Home</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content margin-top *ngIf="!isAdmin == true; else AdminUI"> 
-  <ion-img style="width: 50%; margin: auto" src="../assets/img/ODN - Logo_Horiz.png"></ion-img>
-  <h2 text-center> La búsqueda terminó, esta es tu salida</h2>
-  <ion-row center>
-    <ion-col text-center>
-      <ion-button color="primary" size="large" [routerLink]="['/mapa']">Buscar en el Mapa</ion-button>
-      <ion-button color="secondary" size="large" [routerLink]="['/eventos']">Buscar por Palabra</ion-button>
-    </ion-col>
-  </ion-row>
+<ion-content margin-top *ngIf="!isAdmin == true; else AdminUI">
+  <ion-grid>
+    <ion-row>
+      <img style="width: 50%; margin: auto" src="../../assets/img/ODN - Logo_Horiz.png">
+    </ion-row>
+    <ion-row justify-content-center>
+      <h2>La búsqueda terminó, ¡esta es tu SALIDA!</h2>
+    </ion-row>
+    <ion-row center>
+      <ion-col text-center>
+        <ion-button color="primary" size="large" [routerLink]="['/mapa']">Buscar en el Mapa</ion-button>
+        <ion-button color="secondary" size="large" [routerLink]="['/eventos']">Buscar por Palabra</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 
 <ion-footer>
@@ -26,7 +32,7 @@
 <ng-template #AdminUI>
   <ion-row center>
     <ion-col text-center>
-      <ion-button color="primary" size="large" [routerLink]="['/manejo-eventos']">Ver Eventos</ion-button>
+      <ion-button color="primary" size="large" [routerLink]="['/manejo-eventos']">Administrar Eventos</ion-button>
     </ion-col>
   </ion-row>
 </ng-template>

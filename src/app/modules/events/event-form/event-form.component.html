@@ -13,11 +13,11 @@
     </ion-item>
     <ion-item>
       <ion-label position="floating">Descripción</ion-label>
-      <ion-textarea type="text" formControlName="description" rows="2"></ion-textarea>
+      <ion-textarea type="text" formControlName="description" rows="4"></ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Fecha</ion-label>
-      <ion-datetime display-format="DD/MM/YYYY" picker-format="DD MMM YY" monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic"
+      <ion-datetime display-format="DD/MM/YYYY" picker-format="DD MMM YY" monthShortNames="ENE, FEB, MAR, ABR, MAY, JUN, JUL, AGO, SEP, OCT, NOV, DIC"
         formControlName="date"></ion-datetime>
     </ion-item>
     <ion-item>
@@ -35,6 +35,6 @@
       <ion-label position="floating">Tickets URL</ion-label>
       <ion-input type="text" formControlName="ticket"></ion-input>
     </ion-item>
-    <ion-button expand="full" type="submit">{{ event ? 'Actualizar' : 'Crear' }}</ion-button>
+    <ion-button expand="full" type="submit" [disabled]="!eventForm.valid">{{ event ? 'Actualizar' : 'Crear' }}</ion-button>
   </form>
 </ion-content>

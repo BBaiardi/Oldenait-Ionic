@@ -30,14 +30,18 @@ export class EventFormComponent implements OnInit {
       description: ['', [
         Validators.compose([
           Validators.required,
-          Validators.maxLength(100)
+          Validators.maxLength(200)
         ])
       ]],
       date: ['', [
         Validators.required
       ]],
-      genre: [''],
-      ticket: ['']
+      genre: ['', [
+        Validators.required
+      ]],
+      ticket: ['', [
+        Validators.required
+      ]]
     });
   }
 

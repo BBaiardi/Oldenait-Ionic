@@ -16,7 +16,6 @@ import {
 import {
   AngularFirestore, AngularFirestoreDocument
 } from '@angular/fire/firestore';
-import { ToastController } from '@ionic/angular';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
 
@@ -29,6 +28,8 @@ export class CompleteProfileComponent implements OnInit {
 
   public completeProfileForm: FormGroup;
   public imageUrl;
+  downloadURL;
+  uploadPercent;
   dbRef: AngularFirestoreDocument<any>;
 
   constructor(public auth: AuthService,
@@ -59,18 +60,19 @@ export class CompleteProfileComponent implements OnInit {
       ]],
       website: ['', [
         Validators.required
+      ]],
+      rrpp_name: ['', [
+        Validators.required
+      ]],
+      rrpp_tel: ['', [
+        Validators.required
       ]]
     });
   }
 
   async completeProfile() {
-    const name = this.completeProfileForm.value['name'];
-    const address = this.completeProfileForm.value['address'];
-    const website = this.completeProfileForm.value['website'];
     const data = {
-      name: name,
-      address: address,
-      website: website,
+      ...this.completeProfileForm.value,
       imageUrl: this.imageUrl
     };
     this.dbRef.set(data, {
@@ -82,10 +84,17 @@ export class CompleteProfileComponent implements OnInit {
 
   uploadFile(event) {
     const file = event.target.files[0];
-    const filePath = `users/${this.auth.afAuth.auth.currentUser.uid}/profile_pic/${file.name}`;
+    const filePath = `clubs/${this.auth.afAuth.auth.currentUser.uid}/profile_pic/${file.name}`;
     const ref = this.storage.ref(filePath);
     const task = ref.put(file);
-    task.snapshotChanges().pipe(finalize(() => this.imageUrl = ref.getDownloadURL())).subscribe();
+    this.uploadPercent = task.percentageChanges();
+    task.snapshotChanges().pipe(
+      finalize(() => this.downloadURL = ref.getDownloadURL())).subscribe();
+      task.then(() => {
+        this.downloadURL = ref.getDownloadURL().subscribe(url => {
+          this.imageUrl = url;
+        });
+      });
   }
 
 }

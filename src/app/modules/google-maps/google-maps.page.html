@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -15,9 +15,10 @@
     <agm-marker *ngFor="let club of clubs$ | async" [latitude]="club.latitude" [longitude]="club.longitude"  [iconUrl]="icon">
       <agm-snazzy-info-window [closeWhenOthersOpen]="true">
         <ng-template>
-          <a [routerLink]="['/club', club.id]">{{ club.name }}</a>
-          {{ club.address }}
+          <h1>{{ club.name }}</h1>
+          <p>{{ club.address }}</p>
           <p>{{ club.website }}</p>
+          <a [routerLink]="['/club', club.id]">Ver más info</a>
         </ng-template>
       </agm-snazzy-info-window>
     </agm-marker>

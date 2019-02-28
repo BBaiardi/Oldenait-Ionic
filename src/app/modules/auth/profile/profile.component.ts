@@ -21,11 +21,17 @@ import { Router } from '@angular/router';
 export class ProfileComponent implements OnInit {
 
   imageURL: Observable<string>;
+  isAdmin;
 
   constructor(public auth: AuthService,
     public alertCtrl: AlertController,
     private router: Router,
     private storage: AngularFireStorage) {
+      this.auth.user$.subscribe(user => {
+        if (user) {
+          this.isAdmin = user.roles.admin;
+        }
+      });
   }
 
   ngOnInit() {}

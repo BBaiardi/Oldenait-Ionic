@@ -13,10 +13,11 @@
   <ion-item lines="none" text-center>
     <ion-label>PASO 2: Suba una foto de portada</ion-label>
   </ion-item>
-  <input type="file" (change)="uploadFile($event)" class="fileUpload">
-  
+  <input type="file" id="file" (change)="uploadFile($event)" accept=".png, .jpg" class="inputFile">
+  <div>{{ uploadPercent | async }}</div>
+
   <ion-item lines="none" text-center>
-    <ion-label>PASO 3: Complete los campos</ion-label>
+    <ion-label>PASO 3: Complete los campos del siguiente formulario</ion-label>
   </ion-item>
   <form [formGroup]="completeProfileForm" (ngSubmit)="completeProfile()">
     <ion-item>
@@ -31,8 +32,18 @@
     </ion-item>
     <ion-item>
       <ion-icon slot="start" name="at"></ion-icon>
-      <ion-label position="floating">Sitio Web / Redes sociales</ion-label>
+      <ion-label position="floating">Sitio Web</ion-label>
       <ion-input type="text" formControlName="website"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="contact"></ion-icon>
+      <ion-label position="floating">Contacto</ion-label>
+      <ion-input type="text" formControlName="rrpp_name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="call"></ion-icon>
+      <ion-label position="floating">Teléfono particular</ion-label>
+      <ion-input type="text" formControlName="rrpp_tel"></ion-input>
     </ion-item>
     <ion-button type="submit" [disabled]="!completeProfileForm.valid">Finalizar perfil</ion-button>
   </form>
