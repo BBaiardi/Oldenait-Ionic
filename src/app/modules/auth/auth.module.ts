@@ -26,6 +26,7 @@ import { ProfileFormComponent } from './profile-form/profile-form.component';
     CompleteProfileComponent,
     IonicMapComponent,
     ProfileFormComponent
-  ]
+  ],
+  entryComponents: [ProfileFormComponent]
 })
 export class AuthModule { }

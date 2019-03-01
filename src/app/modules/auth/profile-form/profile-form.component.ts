@@ -13,6 +13,7 @@ export class ProfileFormComponent implements OnInit {
 
   profileForm: FormGroup;
   userId: string;
+  user;
 
   constructor(private auth: AuthService,
     private fb: FormBuilder,
@@ -38,6 +39,7 @@ export class ProfileFormComponent implements OnInit {
       displayName: this.profileForm.value['displayName']
     };
     this.db.updateAt(`users/${this.userId}`, data);
+    this.modal.dismiss();
   }
 
 }

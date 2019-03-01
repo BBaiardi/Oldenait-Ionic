@@ -17,5 +17,6 @@
     <ion-card-content>
       {{ event.description }}
     </ion-card-content>
+    <ion-button color="primary" href="{{ event.ticket }}" onclick="window.open(this.href, '_system', 'location=yes'); return false;">Comprar entrada</ion-button>
   </ion-card>
 </ion-content>

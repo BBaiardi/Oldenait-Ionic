@@ -17,5 +17,19 @@
       <ion-card-subtitle>{{ user.email }}</ion-card-subtitle>
     </ion-card-header>
   </ion-card>
-  <ion-button (click)="deleteUser()">Borrar cuenta</ion-button>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="build"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="start">
+      <ion-fab-button (click)="deleteUser()">
+        <ion-icon name="trash"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="presentProfileForm(user)">
+        <ion-icon name="create"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>

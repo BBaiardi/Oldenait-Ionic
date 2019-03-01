@@ -18,7 +18,6 @@ export class ClubProfileComponent implements OnInit {
   clubId: string;
 
   constructor(private auth: AuthService,
-    private clubService: ClubService,
     private db: DbService,
     public modal: ModalController) {
       this.auth.user$.subscribe(user => {
@@ -30,7 +29,6 @@ export class ClubProfileComponent implements OnInit {
      }
 
   ngOnInit() {
-    // this.club$ = this.db.doc$(`clubs/${this.clubId}`);
   }
 
   async presentClubForm(club?: any) {

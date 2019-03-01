@@ -10,8 +10,9 @@ import {
 } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { ProfileFormComponent } from '../profile-form/profile-form.component';
 
 @Component({
   selector: 'app-profile',
@@ -25,6 +26,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(public auth: AuthService,
     public alertCtrl: AlertController,
+    public modal: ModalController,
     private router: Router,
     private storage: AngularFireStorage) {
       this.auth.user$.subscribe(user => {
@@ -44,8 +46,12 @@ export class ProfileComponent implements OnInit {
     task.snapshotChanges().pipe(finalize(() => this.imageURL = ref.getDownloadURL())).subscribe();
   }
 
-  public logout() {
-    this.auth.logout();
+  async presentProfileForm(user?: any) {
+    const modal = await this.modal.create({
+      component: ProfileFormComponent,
+      componentProps: { user }
+    });
+    return await modal.present();
   }
 
   async deleteUser() {

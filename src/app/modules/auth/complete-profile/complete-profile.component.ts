@@ -50,10 +50,7 @@ export class CompleteProfileComponent implements OnInit {
   createForm() {
     this.completeProfileForm = this.fb.group({
       name: ['', [
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(5)
-        ])
+        Validators.required
       ]],
       address: ['', [
         Validators.required
@@ -75,11 +72,17 @@ export class CompleteProfileComponent implements OnInit {
       ...this.completeProfileForm.value,
       imageUrl: this.imageUrl
     };
-    this.dbRef.set(data, {
+    return this.dbRef.set(data, {
       merge: true
+    }).then(() => {
+      this.auth.showToast('!El perfil fue completado exitosamente!', 'success').then(() => {
+        this.router.navigate(['/home']);
+      });
+    }).catch(error => {
+      console.log(error);
     });
-    this.auth.showToast('!El perfil fue completado exitosamente!', 'success');
-    return this.router.navigate(['/home']);
+    /* this.auth.showToast('!El perfil fue completado exitosamente!', 'success');
+    return this.router.navigate(['/home']);*/
   }
 
   uploadFile(event) {
